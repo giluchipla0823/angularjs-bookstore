@@ -3,11 +3,22 @@ import angular from 'angular';
 const MODULE_NAME = 'app.run';
 
 angular.module(MODULE_NAME, ['jcs-autoValidate-custom'])
+    .run(['$rootScope', '$http', ($rootScope, $http) => {
+        
+        // cancel pending http ajax requests before change view
+        $rootScope.$on('$routeChangeStart', function(event, next, current) {
+            $http.pendingRequests.forEach(function(request) {
+                if (request.canceller) {
+                    request.canceller.resolve();
+                }
+            });
+        });
+    }])
     .run([
         'validator',
         'bootstrap4ElementModifier',
         'defaultErrorMessageResolver',
-        function (validator, bootstrap4ElementModifier, defaultErrorMessageResolver) {
+        (validator, bootstrap4ElementModifier, defaultErrorMessageResolver) => {
             var path = window.location.origin + document.getElementById('base-app').getAttribute('href');
 
             // Bootstrap 4

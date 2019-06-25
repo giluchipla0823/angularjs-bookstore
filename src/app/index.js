@@ -18,6 +18,9 @@ import ContactComponent from './components/contact/contact.component';
 import BooksComponent from './components/books/books.component';
 import AuthorsComponent from './components/authors/authors.component';
 
+// Services
+import AppServices from './services';
+
 const MODULE_NAME = 'BookstoreApp';
 
 angular.module(MODULE_NAME, [
@@ -29,5 +32,6 @@ angular.module(MODULE_NAME, [
     ContactComponent,
     BooksComponent,
     AuthorsComponent,
-    AppDirectives
+    AppDirectives,
+    AppServices
 ]);

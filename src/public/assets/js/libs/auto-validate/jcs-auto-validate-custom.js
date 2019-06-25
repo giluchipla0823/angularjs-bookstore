@@ -147,8 +147,6 @@ angular.module(MODULE_NAME, ['jcs-autoValidate'])
                     correctEl = el.parent();
                 }
 
-                console.log(correctEl);
-
                 return correctEl;
             },
 
