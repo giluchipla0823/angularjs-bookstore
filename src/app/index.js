@@ -1,7 +1,11 @@
 import angular from 'angular';
-import ngRoute from 'angular-route';
 
+// Styles
 import '../public/assets/css/styles.css';
+
+// Config
+import AppRoutes from './app.routes';
+import AppRun from './app.run';
 
 // Directives
 import AppDirectives from './directives';
@@ -15,24 +19,11 @@ import AuthorsComponent from './components/authors/authors.component';
 const MODULE_NAME = 'BookstoreApp';
 
 angular.module(MODULE_NAME, [
-    ngRoute,
+    AppRoutes,
+    AppRun,
     NavbarComponent,
     HomeComponent,
     BooksComponent,
     AuthorsComponent,
     AppDirectives
-])
-.config(['$routeProvider', '$locationProvider', ($routeProvider, $locationProvider) => {
-    $locationProvider.html5Mode(true);
-
-    $routeProvider
-        .when('/', { template: '<home></home>' })
-        .when('/books', { template: '<books></books>' })
-        .when('/authors', { template: '<authors></authors>' })
-        .otherwise({
-            redirectTo: '/'
-        });
-}])
-.run(['$rootScope', '$location', ($rootScope, $location) => {
-    console.log('run app');
-}]);
+]);

@@ -1,3 +1,2 @@
-    // "build": "rimraf dist && SET NODE_ENV=production webpack --progress",
-
-    <base id="base-app" href="/angularjs-demos/angularjs-bookstore/dist/">
+   # Servidor php
+   php -S localhost:8000 -t dist
