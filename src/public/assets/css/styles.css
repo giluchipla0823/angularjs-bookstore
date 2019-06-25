@@ -58,3 +58,8 @@ code {
 	content:" * ";
 	color:#a94442; 
 }
+
+.form-group.has-danger .form-control-feedback::before{
+    content:" * ";
+    color: #d9534f;
+}

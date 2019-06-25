@@ -1,0 +1,121 @@
+<div class="page-header">
+    <h3>Contact page</h3>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <form id="frm_contact" name="frm_contact" novalidate="novalidate">
+            <div class="form-group"
+                 ng-class="{'has-danger': !this.frm_contact.name.$valid && !this.frm_contact.name.$pristine}">
+                <label for="name" class="form-control-label">Name</label>
+                <input type="text" 
+                       class="form-control" 
+                       id="name" 
+                       name="name"
+                       ng-model="vm.form.data.name"
+                       ng-class="{'form-control-danger': !this.frm_contact.name.$valid && !this.frm_contact.name.$pristine}"
+                       required />
+
+                <div ng-messages="frm_contact.name.$error"
+                     ng-show="!frm_contact.name.$valid  && !frm_contact.name.$pristine"
+                     class="form-control-feedback">
+                    <div ng-message="required">
+                        * Required field
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"
+                 ng-class="{'has-danger': !this.frm_contact.lastname.$valid && !this.frm_contact.lastname.$pristine}">
+                <label for="lastname" class="form-control-label">Lastname</label>
+                <input type="text" 
+                        class="form-control" 
+                        id="lastname" 
+                        name="lastname"
+                        ng-model="vm.form.data.lastname"
+                        ng-class="{'form-control-danger': !this.frm_contact.name.$valid && !this.frm_contact.name.$pristine}"
+                        required />
+
+                <div ng-messages="frm_contact.lastname.$error"
+                     ng-show="!frm_contact.lastname.$valid  && !frm_contact.lastname.$pristine"
+                     class="form-control-feedback">
+                    <div ng-message="required">
+                        * Required field
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"
+                 ng-class="{'has-danger': !this.frm_contact.email.$valid && !this.frm_contact.email.$pristine}">
+                <label for="email" class="form-control-label">Email</label>
+                <input type="email" 
+                        class="form-control" 
+                        id="email" 
+                        name="email"
+                        ng-model="vm.form.data.email"
+                        required
+                        ng-class="{'form-control-danger': !this.frm_contact.name.$valid && !this.frm_contact.name.$pristine}"
+                        ng-pattern="/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/" />
+
+                <div ng-messages="frm_contact.email.$error"
+                     ng-show="!frm_contact.email.$valid  && !frm_contact.email.$pristine"
+                     class="form-control-feedback">
+                    <div ng-message="required">
+                        * Required field
+                    </div>
+                    <div ng-message="email">
+                        * You must enter a valid email
+                    </div>
+                    <div ng-message="pattern">
+                        * You must enter a valid email
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"
+                 ng-class="{'has-danger': !this.frm_contact.subject.$valid && !this.frm_contact.subject.$pristine}">
+                <label for="subject" class="form-control-label">Subject</label>
+                <input type="text" 
+                        class="form-control" 
+                        id="subject" 
+                        name="subject"
+                        ng-model="vm.form.data.subject"
+                        ng-class="{'form-control-danger': !this.frm_contact.name.$valid && !this.frm_contact.name.$pristine}"
+                        required />
+
+                <div ng-messages="frm_contact.subject.$error"
+                     ng-show="!frm_contact.subject.$valid  && !frm_contact.subject.$pristine"
+                     class="form-control-feedback">
+                    <div ng-message="required">
+                        * Required field
+                    </div>
+                </div>
+            </div>
+            <div class="form-group"
+                 ng-class="{'has-danger': !this.frm_contact.message.$valid && !this.frm_contact.message.$pristine}">
+                <label for="message" class="form-control-label">Message</label>
+                <textarea type="text" 
+                          class="form-control" 
+                          id="message" 
+                          name="message"
+                          ng-model="vm.form.data.message"
+                          ng-class="{'form-control-danger': !this.frm_contact.name.$valid && !this.frm_contact.name.$pristine}"
+                          required></textarea>
+
+                <div ng-messages="frm_contact.message.$error"
+                     ng-show="!frm_contact.message.$valid  && !frm_contact.message.$pristine"
+                     class="form-control-feedback">
+                    <div ng-message="required">
+                        * Required field
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <button type="button" 
+                        class="btn btn-primary">
+                    Save
+                </button>
+            </div>
+        </form>
+
+        <pre>{{ vm.form.data | json }}</pre>
+        <pre>{{ this.frm_contact.email.$error | json }}</pre>
+    </div>
+</div>
