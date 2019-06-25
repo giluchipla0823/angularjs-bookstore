@@ -8,6 +8,7 @@ const environment = process.env.NODE_ENV === 'production' ? 'production' : 'deve
 
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
+console.log('__dirname', __dirname);
 
 module.exports = {
   entry: "./src/app/index.js",
@@ -26,7 +27,8 @@ module.exports = {
     })
   ],
   devServer: {
-    contentBase: "./src/public"
+    contentBase: "./src/public",
+    historyApiFallback: true
   },
   module: {
     rules: [

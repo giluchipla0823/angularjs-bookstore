@@ -3,6 +3,9 @@ import ngRoute from 'angular-route';
 
 import '../public/assets/css/styles.css';
 
+// Directives
+import AppDirectives from './directives';
+
 // Components
 import NavbarComponent from './components/navbar/navbar.component';
 import HomeComponent from './components/home/home.component';
@@ -16,13 +19,19 @@ angular.module(MODULE_NAME, [
     NavbarComponent,
     HomeComponent,
     BooksComponent,
-    AuthorsComponent
+    AuthorsComponent,
+    AppDirectives
 ])
-.config(['$routeProvider', ($routeProvider) => {
+.config(['$routeProvider', '$locationProvider', ($routeProvider, $locationProvider) => {
+    $locationProvider.html5Mode(true);
+
     $routeProvider
         .when('/', { template: '<home></home>' })
         .when('/books', { template: '<books></books>' })
-        .when('/authors', { template: '<authors></authors>' });
+        .when('/authors', { template: '<authors></authors>' })
+        .otherwise({
+            redirectTo: '/'
+        });
 }])
 .run(['$rootScope', '$location', ($rootScope, $location) => {
     console.log('run app');
