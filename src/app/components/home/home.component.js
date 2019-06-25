@@ -12,7 +12,7 @@ const HomeComponent = {
 };
 
 angular.module(MODULE_NAME, [])
-    .controller('HomeController', HomeController)
+    // .controller('HomeController', HomeController)
     .component('home', HomeComponent);
 
 export default MODULE_NAME;

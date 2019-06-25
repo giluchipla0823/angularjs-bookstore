@@ -9,6 +9,7 @@ angular.module(MODULE_NAME, [ngRoute])
 
         $routeProvider
             .when('/', { template: '<home></home>' })
+            .when('/contact', { template: '<contact></contact>' })
             .when('/books', { template: '<books></books>' })
             .when('/authors', { template: '<authors></authors>' })
             .otherwise({
