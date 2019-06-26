@@ -10,8 +10,15 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
+
 module.exports = {
+  // entry: {
+  //   'bundle': "./src/app/index.js",
+  // },
   entry: [
+    // "tether",
+    // "bootstrap",
+    // "./src/app/vendor.js",
     "./src/app/index.js"
   ],
   output: {
@@ -19,6 +26,25 @@ module.exports = {
     filename: "bundle.js",
   },
   plugins: [
+    // new webpack.ProvidePlugin({
+    //   $: 'jquery',
+    //   jQuery: 'jquery',
+    //   'window.jQuery': 'jquery',
+    //   tether: 'tether',
+    //   Tether: 'tether',
+    //   'window.Tether': 'tether',
+    //   // Alert: 'exports-loader?Alert!bootstrap/js/dist/alert',
+    //   // Button: 'exports-loader?Button!bootstrap/js/dist/button',
+    //   // Carousel: 'exports-loader?Carousel!bootstrap/js/dist/carousel',
+    //   // Collapse: 'exports-loader?Collapse!bootstrap/js/dist/collapse',
+    //   // Dropdown: 'exports-loader?Dropdown!bootstrap/js/dist/dropdown',
+    //   // Modal: 'exports-loader?Modal!bootstrap/js/dist/modal',
+    //   // Popover: 'exports-loader?Popover!bootstrap/js/dist/popover',
+    //   // Scrollspy: 'exports-loader?Scrollspy!bootstrap/js/dist/scrollspy',
+    //   // Tab: 'exports-loader?Tab!bootstrap/js/dist/tab',
+    //   // Tooltip: "exports-loader?Tooltip!bootstrap/js/dist/tooltip",
+    //   // Util: 'exports-loader?Util!bootstrap/js/dist/util'
+    // }),
     new CopyWebpackPlugin([
       {
         from: './src/public/assets',
@@ -56,6 +82,9 @@ module.exports = {
         test: /\.html$/,
         use: "raw-loader"
       },
+      // {
+      //   test: /bootstrap\/dist\/js\//, use: 'imports-loader?jQuery=jquery'
+      // }
     ]
   }
 };
