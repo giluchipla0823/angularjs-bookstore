@@ -1,2 +1,2 @@
-   # Servidor php
-   php -S localhost:8000 -t dist
+# Servidor php
+php -S localhost:8000 -t dist

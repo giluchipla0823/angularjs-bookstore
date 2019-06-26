@@ -12,6 +12,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: [
+    "./src/app/vendor.js",
     "./src/app/index.js"
   ],
   output: {
@@ -21,8 +22,8 @@ module.exports = {
   plugins: [
     new CopyWebpackPlugin([
       {
-        from: './src/public/assets',
-        to: './assets',
+        from: './src/public/assets/js/libs',
+        to: './assets/js/libs',
       },
     ]),
     new HtmlWebpackPlugin({ template: "./src/public/index.html" }),
