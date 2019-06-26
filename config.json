@@ -1,6 +1,6 @@
 {
   "API_URL": {
-    "production": "https://server-proxy-api-unsplash-hyyqdbqqtv.now.sh",
+    "production": "http://localhost/codeigniter-projects/codeigniter-bookstore/api/",
     "development": "http://localhost/codeigniter-projects/codeigniter-bookstore/api/"
   }
 }

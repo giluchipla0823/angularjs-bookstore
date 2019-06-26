@@ -6,7 +6,9 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const config = require('./config.json')
 const environment = process.env.NODE_ENV === 'production' ? 'production' : 'development';
 
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+
+const CopyPlugin = require('copy-webpack-plugin');
 
 console.log('__dirname', __dirname);
 
@@ -24,7 +26,10 @@ module.exports = {
     }),
     new UglifyJsPlugin({ uglifyOptions: 
       { mangle: false }
-    })
+    }),
+    new CopyPlugin([
+      { from: '/assets/**', to: '/assets/luiggi/' }
+    ])
   ],
   devServer: {
     contentBase: "./src/public",

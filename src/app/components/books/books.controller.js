@@ -1,3 +1,5 @@
+import {evalResponse}  from '../../../public/assets/js/jsCommonFunctions';
+
 class BooksController{
     constructor(BooksService){
         this.booksService = BooksService;
@@ -5,6 +7,8 @@ class BooksController{
         
         this.getBooks();
     }
+
+    
 
     getBooks(){
         this.booksService.getBooks()
