@@ -47,6 +47,12 @@ module.exports = {
         exclude: /node_modules/
       },
       {
+        test: /\.woff2?$|\.ttf$|\.eot$|\.svg$/,
+            use: [{
+                loader: "file-loader"
+            }]
+      },
+      {
         test: /\.css$/,
         use: ExtractTextPlugin.extract({
           fallback: "style-loader",
