@@ -1,1 +1,25 @@
 <h1>{{ vm.title }}</h1>
+<hr />
+
+<p>El Item seleccionado del modal es: {{ vm.selectedItem }}<p>
+
+<button type="button" class="btn btn-secondary" ng-click="vm.openModal()">Open me!</button>
+
+
+<script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">I'm a modal!</h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+        <ul>
+            <li ng-repeat="item in $ctrl.items">
+                <a href="#" ng-click="$event.preventDefault(); $ctrl.selected.item = item">{{ item }}</a>
+            </li>
+        </ul>
+        Selected: <b>{{ $ctrl.selected.item }}</b>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" type="button" ng-click="$ctrl.accept()">OK</button>
+        <button class="btn btn-secondary" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+    </div>
+</script>
