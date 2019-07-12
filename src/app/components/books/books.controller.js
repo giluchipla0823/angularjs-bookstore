@@ -63,24 +63,44 @@ class BooksController{
                                 })
                                 .withBootstrap();
         vm.nested.dtColumns = [
-            vm.dtColumnBuilder.newColumn('id').withTitle('ID').withClass('text-danger'),
-            vm.dtColumnBuilder.newColumn('title').withTitle('Title'),
-            vm.dtColumnBuilder.newColumn('description').withTitle('Description').notSortable(),
-            vm.dtColumnBuilder.newColumn('author').withTitle('Author').notSortable()
-                .renderWith(function(data, type, full, meta) {
-                    if(!data){
-                        return '';
-                    }
+            vm.dtColumnBuilder
+                .newColumn('id')
+                .withTitle('ID')
+                .withOption('name', 'id'),
+            vm.dtColumnBuilder
+                .newColumn('title')
+                .withTitle('Title')
+                .withOption('name', 'title'),
+            vm.dtColumnBuilder
+                .newColumn('description')
+                .withTitle('Description')
+                .withOption('name', 'description')
+                .notSortable(),
+            vm.dtColumnBuilder
+                .newColumn('author.name')
+                .withTitle('Author')
+                .withOption('name', 'author.name')
+                .withOption('defaultContent', ""),
+                // .notSortable()
+                // .renderWith(function(data, type, full, meta) {
+                //     console.log(data);
 
-                    return data.name;
-                }),
-            vm.dtColumnBuilder.newColumn(null).withTitle('Actions').notSortable()
-                .renderWith(function(data, type, full, meta) {
-                        vm.persons[data.id] = data;
+                //     if(!data){
+                //         return '';
+                //     }
 
-                        return `<button class="btn btn-danger" ng-click="vm.deleteRow(vm.persons[${ data.id }]);">
-                                    <i class="fa fa-trash-o"></i>
-                                </button>`;
+                //     return data.name;
+                // }),
+            vm.dtColumnBuilder
+                .newColumn(null)
+                .withTitle('Actions')
+                .notSortable()
+                .renderWith(function(data, type, full, meta) {
+                    vm.persons[data.id] = data;
+
+                    return `<button class="btn btn-danger" ng-click="vm.deleteRow(vm.persons[${ data.id }]);">
+                                <i class="fa fa-trash-o"></i>
+                            </button>`;
                 })
         ];
 
