@@ -2,6 +2,8 @@ import {evalResponse, groupFnDatatablesWithAngular}  from '../../../public/asset
 
 class BooksController{
     constructor($scope, $uibModal, BooksService, DTOptionsBuilder, DTColumnBuilder, $compile){
+        this.compile = $compile;
+        this.scope = $scope;
         this.dtOptionsBuilder = DTOptionsBuilder;
         this.dtColumnBuilder = DTColumnBuilder;
         this.uibModal = $uibModal;
@@ -13,70 +15,41 @@ class BooksController{
         this.items = ['item1', 'item2', 'item3'];
         this.selectedItem = null;
 
-        this.fnDatatables = groupFnDatatablesWithAngular($scope, $compile);
+        this.fnDatatables = groupFnDatatablesWithAngular(this.scope, this.compile);
 
         this.loadDatatables();
     }
 
     loadDatatables(){
         let vm = this;
+        
         vm.persons = {};
 
         vm.nested = {
             dtInstance: {}
         };
         vm.nested.dtOptions = vm.dtOptionsBuilder
-                            .newOptions()
-                            .withOption('initComplete', vm.fnDatatables.initComplete)
-                            .withOption('ajax', {
-                                // Either you specify the AjaxDataProp here
-                                // dataSrc: 'data',
-                                url: './assets/data/persons.json',
-                                type: 'GET',
-                                data: {
-                                    title: 'title',
-                                    description: 'description'
-                                }
-                            })
-                            .withDOM("<'hide'lt>tr<'hide'ip>")
-                            .withPaginationType('full_numbers')
-                            .withOption('createdRow', vm.fnDatatables.createdRow)
-                            .withOption('responsive', {
-                                detailts: {
-                                    renderer: vm.fnDatatables.renderResponsive
-                                }    
-                            })
-                            /* .withOption('responsive', {
-                                detailts: {
-                                    renderer: function(api, rowIdx, columns) {
-
-                                        console.log('render responsive');
-
-                                        var api_data = api.data();
-
-                                        var data = $.map(columns, function (col, i) {
-                                            var html_responsive = '<li data-dtr-index="' + col.columnIndex + '" data-dt-row="' + col.rowIndex + '" data-dt-column="' + col.columnIndex + '">'+
-                                                '<span class="dtr-title">'+
-                                                col.title +
-                                                '</span> '+
-                                                '<span class="dtr-data">'+
-                                                col.data +
-                                                '</span>'+
-                                                '</li>';
-                                            return col.hidden ? html_responsive : '';
-
-                                        }).join('');
-
-                                        var $_ulData = $('<ul class="row-dt" data-dtr-index="' + rowIdx + '"/>');
-                                        var $_element = angular.element($_ulData.append(data));
-                                        
-                                        $_element.data(api_data[rowIdx]);
-
-                                        return data ? $compile($_element)($scope) : false;
+                                .newOptions()
+                                .withOption('initComplete', vm.fnDatatables.initComplete)
+                                .withOption('ajax', {
+                                    // Either you specify the AjaxDataProp here
+                                    // dataSrc: 'data',
+                                    url: './assets/data/persons.json',
+                                    type: 'GET',
+                                    data: {
+                                        title: 'title',
+                                        description: 'description'
                                     }
-                                }
-                            }) */
-                            .withBootstrap();
+                                })
+                                .withDOM("<'hide'lt>tr<'hide'ip>")
+                                .withPaginationType('full_numbers')
+                                .withOption('createdRow', vm.fnDatatables.createdRow)
+                                .withOption('responsive', {
+                                    details: {
+                                        renderer: vm.fnDatatables.renderResponsive
+                                    }    
+                                })
+                                .withBootstrap();
 
         vm.nested.dtColumns = [
             vm.dtColumnBuilder.newColumn('id').withTitle('ID').withClass('text-danger'),

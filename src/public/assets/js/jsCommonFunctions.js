@@ -19,7 +19,8 @@ export const evalResponse = (response) => {
 
 export const groupFnDatatablesWithAngular = ($scope, $compile) =>{
     
-    const defaultConfigInitComplete = (settings, json) => {
+    const defaultConfigInitComplete = (instance, settings, json) => {
+        var $_api = instance.api();
         const tableId = settings.sTableId;
         const $_table = $('#' + tableId);
         const $_panel = $_table.parents('.panel');
@@ -39,10 +40,26 @@ export const groupFnDatatablesWithAngular = ($scope, $compile) =>{
         $_datatableLength.appendTo($_containerLength);
         $_containerInfoResults.append($_datatableInfo);
         $_containerPagination.append($_datatablePaginate);
+
+        loadEventsDatatables($_table, $_api);
+    }
+
+    const toggleClassLastActive = ($_table) => {
+        $_table.find('thead tr th').removeClass('lastVisible');
+
+        $_table.filter('.collapsed').find('thead tr th:visible:last').addClass('lastVisible');
+
+
+        $_table.find('tbody tr.row-dt td').removeClass('lastVisible');
+
+        $_table.filter('.collapsed').find('tbody tr.row-dt').each(function(){
+            $(this).find('td:visible:last').addClass('lastVisible');
+        });
     }
 
     const initComplete = (settings, json) => {
-        defaultConfigInitComplete(settings, json);
+        const instance = settings.oInstance;
+        defaultConfigInitComplete(instance, settings, json);
     }
 
     const createdRow = (row, data) => {
@@ -79,15 +96,47 @@ export const groupFnDatatablesWithAngular = ($scope, $compile) =>{
         return data ? $compile($_element)($scope) : false;
     };
 
+    const loadEventsDatatables = ($_table, $_datatable) => {
+
+        toggleClassLastActive($_table);
+
+        $_table.find('tbody').on( 'click', 'tr', function () {
+            var $_this = $(this);
+
+            if ($_this.hasClass('selected')) {
+                $_this.removeClass('selected');
+            }
+            else {
+                $_datatable.$('tr.selected').removeClass('selected');
+                $_this.addClass('selected');
+            }
+        });
+
+
+        $_datatable.on('responsive-resize', function(e, datatable, columns) {
+
+            console.log('responsive-resize');
+
+            toggleClassLastActive($_table);
+
+            var count = columns.reduce( function (a,b) {
+                return b === false ? a+1 : a;
+            }, 0 );
+
+            datatable.columns.adjust();
+
+
+        }); 
+    }
+
     return {
         initComplete: initComplete,
         defaultConfigInitComplete: defaultConfigInitComplete,
         createdRow: createdRow,
-        renderResponsive: renderResponsive
+        renderResponsive: renderResponsive,
+        loadEventsDatatables: loadEventsDatatables
     };
 };
-
-
 
 export default {
     evalResponse, 

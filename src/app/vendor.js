@@ -22,5 +22,6 @@ require('bootstrap/dist/css/bootstrap.css');
 // Font awesome 4.7.0
 require('font-awesome/css/font-awesome.css');
 
-window.dt = require('datatables.net');
-require( 'datatables.net-responsive-bs' );
+// require('datatables.net-dt');
+// require('datatables.net-responsive');
+// require( 'datatables.net-responsive-bs' );
