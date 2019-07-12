@@ -32,6 +32,8 @@ class BooksController{
         vm.nested.dtOptions = vm.dtOptionsBuilder
                                 .newOptions()
                                 .withOption('initComplete', vm.fnDatatables.initComplete)
+                                .withPaginationType('full_numbers')
+                                .withDataProp('data')
                                 .withOption('ajax', {
                                     // Either you specify the AjaxDataProp here
                                     // dataSrc: 'data',
@@ -41,13 +43,23 @@ class BooksController{
                                     data: function(d) {
                                         d.includes = 'author';
                                     },
+                                    'dataFilter': function(response){
+                                        var json = JSON.parse(response);                                        
+                                        var data = json.data;
+
+                                        return JSON.stringify({
+                                            "draw": data.draw,
+                                            "recordsTotal": data.recordsTotal,    
+                                            "recordsFiltered": data.recordsFiltered,
+                                            'data': data.items
+                                        });
+                                    },
                                     "dataSrc": function(data){
-                                        console.log('dataSrc', data.data.items);
                                         if(data.data === undefined){
                                             return [];
                                         }
 
-                                        return data.data.items;
+                                        return data.data;
                                     }
                                 })
                                 .withOption('serverSide', true)
@@ -77,20 +89,20 @@ class BooksController{
                 .withOption('name', 'description')
                 .notSortable(),
             vm.dtColumnBuilder
-                .newColumn('author.name')
+                .newColumn('author')
                 .withTitle('Author')
                 .withOption('name', 'author.name')
-                .withOption('defaultContent', ""),
+                .withOption('defaultContent', "")
                 // .notSortable()
-                // .renderWith(function(data, type, full, meta) {
-                //     console.log(data);
+                .renderWith(function(data, type, full, meta) {
+                     /* console.log(data);
 
-                //     if(!data){
-                //         return '';
-                //     }
+                    if(!data){
+                         return '';
+                     } */
 
-                //     return data.name;
-                // }),
+                     return data.name;
+            }),
             vm.dtColumnBuilder
                 .newColumn(null)
                 .withTitle('Actions')
