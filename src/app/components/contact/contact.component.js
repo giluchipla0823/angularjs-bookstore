@@ -1,6 +1,7 @@
 import angular from 'angular';
 import ngMessages from 'angular-messages';
-import jcsAutoValidateCustom from '../../../public/assets/js/libs/auto-validate/jcs-auto-validate-custom.js';
+
+import '../../../public/assets/js/libs/auto-validate/jcs-auto-validate.js';
 import ContactController from './contact.controller';
 import ContactTemplate from './contact.template.html';
 
@@ -12,7 +13,7 @@ const ContactComponent = {
     controllerAs: 'vm'
 };
 
-angular.module(MODULE_NAME, [ngMessages, jcsAutoValidateCustom])
+angular.module(MODULE_NAME, [ngMessages, 'jcs-autoValidate'])
     .component('contact', ContactComponent);
 
 

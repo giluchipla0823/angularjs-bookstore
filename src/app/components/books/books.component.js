@@ -1,5 +1,13 @@
 import angular from 'angular';
-import modal from 'ui-bootstrap4/src/modal';
+import modal from 'angular-ui-bootstrap/src/modal';
+import angularDatatables from 'angular-datatables';
+
+// Datatables - bootstrap
+import 'angular-datatables/dist/plugins/bootstrap/angular-datatables.bootstrap.js';
+import 'angular-datatables/dist/plugins/bootstrap/datatables.bootstrap.min.css';
+
+// Datatables - responsive
+import 'datatables.net-responsive-bs/css/responsive.bootstrap.min.css';
 
 import BooksController from './books.controller.js';
 import ModalController from './modal.controller.js';
@@ -14,7 +22,7 @@ const BooksComponent = {
     controllerAs: 'vm'
 };
 
-angular.module(MODULE_NAME, [modal])
+angular.module(MODULE_NAME, [modal, angularDatatables, 'datatables.bootstrap'])
 .controller('BooksController', BooksController)
 .controller('ModalController', ModalController)
 .service('BooksService', BooksService)

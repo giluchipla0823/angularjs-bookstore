@@ -1,19 +1,7 @@
 import angular from 'angular';
 
 // Styles
-// import '../public/assets/css/bootstrap/bootstrap.min.css';
 import '../public/assets/css/styles.css';
-
-// Scripts
-// import '../public/assets/js/libs/jquery/jquery-3.1.1.slim.min.js';
-// import '../public/assets/js/libs/tether/tether.min.js';
-// import '../public/assets/js/libs/bootstrap/bootstrap.min.js';
-
-
-// require('../../node_modules/bootstrap/dist/js/bootstrap.js');
-
-// import '../../node_modules/bootstrap/dist/js/bootstrap.js';
-
 
 // Config
 import AppRoutes from './app.routes';
