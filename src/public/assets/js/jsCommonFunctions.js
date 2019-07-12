@@ -17,7 +17,7 @@ export const evalResponse = (response) => {
     return true;
 };
 
-export const groupFnDatatablesWithAngular = ($scope, $compile) =>{
+export const groupFnDatatablesWithAngular = (ngModel, $scope, $compile) =>{
     
     const defaultConfigInitComplete = (instance, settings, json) => {
         var $_api = instance.api();
@@ -59,6 +59,9 @@ export const groupFnDatatablesWithAngular = ($scope, $compile) =>{
 
     const initComplete = (settings, json) => {
         const instance = settings.oInstance;
+
+        console.log('instance api', instance);
+
         defaultConfigInitComplete(instance, settings, json);
     }
 
@@ -97,7 +100,6 @@ export const groupFnDatatablesWithAngular = ($scope, $compile) =>{
     };
 
     const loadEventsDatatables = ($_table, $_datatable) => {
-
         toggleClassLastActive($_table);
 
         $_table.find('tbody').on( 'click', 'tr', function () {
@@ -114,27 +116,60 @@ export const groupFnDatatablesWithAngular = ($scope, $compile) =>{
 
 
         $_datatable.on('responsive-resize', function(e, datatable, columns) {
-
-            console.log('responsive-resize');
-
             toggleClassLastActive($_table);
 
             var count = columns.reduce( function (a,b) {
-                return b === false ? a+1 : a;
+                return b === false ? a + 1 : a;
             }, 0 );
 
             datatable.columns.adjust();
-
-
         }); 
     }
+
+    const reloadData = (resetPaging, o_params) => {
+        const $_instance = $scope.vm[ngModel].dtInstance;
+        const a_ulRowDT = $('tr.child ul.row-dt');
+        // const o_beforeEvents = o_params.o_beforeEvents;
+        // const o_afterEvents = o_params.o_afterEvents;
+
+        // Ejecución de eventos antes de realizar el reload
+        // for(let i in o_beforeEvents){
+        //     if(typeof o_beforeEvents[i] === 'function'){
+        //         o_beforeEvents[i]();
+        //     }
+        // }
+
+        $_instance.reloadData(function(response){
+            showItemsResponsiveAfterReload(a_ulRowDT);
+
+            // Ejecución de eventos después de realizar el reload
+            // for(let i in o_afterEvents){
+            //     if(typeof o_afterEvents[i] === 'function'){
+            //         o_afterEvents[i]();
+            //     }
+            // }
+
+        }, resetPaging);
+    }
+
+    const showItemsResponsiveAfterReload = (a_ulRowDT) => {
+        const count_ul = a_ulRowDT.length;
+
+        for(let i = 0; i < count_ul; i++){
+          const data = $(a_ulRowDT[i]).data();
+          const id = data.id;
+          
+          $('.tr-'+ id +'').children().eq(0).trigger('click');
+        }
+    };
 
     return {
         initComplete: initComplete,
         defaultConfigInitComplete: defaultConfigInitComplete,
         createdRow: createdRow,
         renderResponsive: renderResponsive,
-        loadEventsDatatables: loadEventsDatatables
+        loadEventsDatatables: loadEventsDatatables,
+        reloadData: reloadData
     };
 };
 

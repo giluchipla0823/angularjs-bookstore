@@ -15,7 +15,7 @@ class BooksController{
         this.items = ['item1', 'item2', 'item3'];
         this.selectedItem = null;
 
-        this.fnDatatables = groupFnDatatablesWithAngular(this.scope, this.compile);
+        this.fnDatatables = groupFnDatatablesWithAngular('nested', this.scope, this.compile);
 
         this.loadDatatables();
     }
@@ -28,19 +28,31 @@ class BooksController{
         vm.nested = {
             dtInstance: {}
         };
+
         vm.nested.dtOptions = vm.dtOptionsBuilder
                                 .newOptions()
                                 .withOption('initComplete', vm.fnDatatables.initComplete)
                                 .withOption('ajax', {
                                     // Either you specify the AjaxDataProp here
                                     // dataSrc: 'data',
-                                    url: './assets/data/persons.json',
+                                    // url: './assets/data/persons.json',
+                                    url: 'http://127.0.0.1:8000/api/books?listFormat=datatables',
                                     type: 'GET',
-                                    data: {
-                                        title: 'title',
-                                        description: 'description'
+                                    data: function(d) {
+                                        d.includes = 'author';
+                                    },
+                                    "dataSrc": function(data){
+                                        console.log('dataSrc', data.data.items);
+                                        if(data.data === undefined){
+                                            return [];
+                                        }
+
+                                        return data.data.items;
                                     }
                                 })
+                                .withOption('serverSide', true)
+                                .withOption('processing', true)
+
                                 .withDOM("<'hide'lt>tr<'hide'ip>")
                                 .withPaginationType('full_numbers')
                                 .withOption('createdRow', vm.fnDatatables.createdRow)
@@ -50,11 +62,18 @@ class BooksController{
                                     }    
                                 })
                                 .withBootstrap();
-
         vm.nested.dtColumns = [
             vm.dtColumnBuilder.newColumn('id').withTitle('ID').withClass('text-danger'),
-            vm.dtColumnBuilder.newColumn('firstName').withTitle('First name'),
-            vm.dtColumnBuilder.newColumn('lastName').withTitle('Last name'),
+            vm.dtColumnBuilder.newColumn('title').withTitle('Title'),
+            vm.dtColumnBuilder.newColumn('description').withTitle('Description').notSortable(),
+            vm.dtColumnBuilder.newColumn('author').withTitle('Author').notSortable()
+                .renderWith(function(data, type, full, meta) {
+                    if(!data){
+                        return '';
+                    }
+
+                    return data.name;
+                }),
             vm.dtColumnBuilder.newColumn(null).withTitle('Actions').notSortable()
                 .renderWith(function(data, type, full, meta) {
                         vm.persons[data.id] = data;
@@ -64,6 +83,8 @@ class BooksController{
                                 </button>`;
                 })
         ];
+
+        vm.nested.reloadData = vm.fnDatatables.reloadData;
     }
 
     deleteRow(person) {
