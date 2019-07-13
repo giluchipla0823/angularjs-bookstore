@@ -1,4 +1,8 @@
-import {evalResponse, groupFnDatatablesWithAngular}  from '../../../public/assets/js/jsCommonFunctions';
+import {
+    evalResponse, 
+    groupFnDatatablesWithAngular,
+    extractColumn
+}  from '../../../public/assets/js/jsCommonFunctions';
 
 class BooksController{
     constructor($scope, $uibModal, BooksService, DTOptionsBuilder, DTColumnBuilder, $compile){
@@ -10,10 +14,10 @@ class BooksController{
         this.booksService = BooksService;
         this.title = 'Books Page';
         
-        this.getBooks();
+        // this.getBooks();
 
-        this.items = ['item1', 'item2', 'item3'];
-        this.selectedItem = null;
+        /* this.items = ['item1', 'item2', 'item3'];
+        this.selectedItem = null; */
 
         this.fnDatatables = groupFnDatatablesWithAngular('nested', this.scope, this.compile);
 
@@ -22,11 +26,10 @@ class BooksController{
 
     loadDatatables(){
         let vm = this;
-        
-        vm.persons = {};
 
         vm.nested = {
-            dtInstance: {}
+            dtInstance: {},
+            items: {}
         };
 
         vm.nested.dtOptions = vm.dtOptionsBuilder
@@ -41,7 +44,7 @@ class BooksController{
                                     url: 'http://127.0.0.1:8000/api/books?listFormat=datatables',
                                     type: 'GET',
                                     data: function(d) {
-                                        d.includes = 'author';
+                                        d.includes = 'author,genres';
                                     },
                                     'dataFilter': function(response){
                                         var json = JSON.parse(response);                                        
@@ -64,7 +67,6 @@ class BooksController{
                                 })
                                 .withOption('serverSide', true)
                                 .withOption('processing', true)
-
                                 .withDOM("<'hide'lt>tr<'hide'ip>")
                                 .withPaginationType('full_numbers')
                                 .withOption('createdRow', vm.fnDatatables.createdRow)
@@ -92,25 +94,37 @@ class BooksController{
                 .newColumn('author')
                 .withTitle('Author')
                 .withOption('name', 'author.name')
-                .withOption('defaultContent', "")
-                // .notSortable()
                 .renderWith(function(data, type, full, meta) {
-                     /* console.log(data);
-
-                    if(!data){
-                         return '';
-                     } */
-
                      return data.name;
+            }),
+            vm.dtColumnBuilder
+                .newColumn('genres')
+                .withTitle('Géneros')
+                .withOption('name', 'genres')
+                .notSortable()
+                .renderWith(function(data, type, full, meta) {
+                     const items = extractColumn(data, 'name');
+
+                     let html = ``;
+
+                     items.forEach(item => {
+                        html += `<span class="label label-default">${item}</span> `;    
+                     });
+
+                     return html;                        
             }),
             vm.dtColumnBuilder
                 .newColumn(null)
                 .withTitle('Actions')
                 .notSortable()
                 .renderWith(function(data, type, full, meta) {
-                    vm.persons[data.id] = data;
+                    vm.nested.items[data.id] = data;
 
-                    return `<button class="btn btn-danger" ng-click="vm.deleteRow(vm.persons[${ data.id }]);">
+                    return `<button class="btn btn-default" ng-click="vm.editBook(vm.nested.items[${ data.id }]);">
+                                <i class="fa fa-edit"></i>
+                            </button>
+                            &nbsp;&nbsp;
+                            <button class="btn btn-danger" ng-click="vm.deleteBook(vm.nested.items[${ data.id }]);">
                                 <i class="fa fa-trash-o"></i>
                             </button>`;
                 })
@@ -119,34 +133,39 @@ class BooksController{
         vm.nested.reloadData = vm.fnDatatables.reloadData;
     }
 
-    deleteRow(person) {
-        console.log('deleteRow', person);
+    editBook(book) {
+        console.log('editBook', book);
+        this.openModal(book);
     }
 
-    getBooks(){
+    deleteBook(book) {
+        console.log('deleteBook', book);
+    }
+
+    /* getBooks(){
         this.booksService.getBooks()
             .then( response =>{
                 if(evalResponse(response)){
                     console.log('books', response.data);
                 }
             });
-    }
+    } */
 
-    openModal(){
+    openModal(data){
         const modalInstance = this.uibModal.open({
-          templateUrl: 'myModalContent.html',
-          controller: 'ModalController',
+          templateUrl: 'modalFormBook.html',
+          controller: 'BooksModalController',
           controllerAs: '$ctrl',
           size: '',
           resolve: {
-            Items:() => {
-                return this.items;
+            Response: () => {
+                return data;
             }
           }
         });
 
-        modalInstance.result.then(selectedItem => {
-            this.selectedItem = selectedItem;
+        modalInstance.result.then(response => {
+            console.log('Item seleccionado: ' + response );
         }, () => {
             console.log('Modal dismissed at: ' + new Date());
         });

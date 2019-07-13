@@ -1,20 +1,23 @@
 <h1>{{ vm.title }}</h1>
 <hr />
 
-<p>El Item seleccionado del modal es: {{ vm.selectedItem }}<p>
-
-<button type="button" class="btn btn-primary" ng-click="vm.openModal()">Open me!</button>
 
 <button type="button" class="btn btn-primary" ng-click="vm.nested.reloadData(true, {})">Reload data</button>
-
-<h2>Datatables</h2>
 
 <div class="panel panel-default panel-datatables">
     <div class="panel-heading clearfix">
         <div class="pull-left" style="margin-top: 10px;">
-            <h3 class="panel-title">Listado de Personas</h3>
+            <h3 class="panel-title">Listado de Libros</h3>
         </div>
-        <div class="pull-right dt-select-length">
+        <div class="pull-right">
+            <div class="pull-left">
+                <button ng-click="vm.openModal({})"
+                        class="btn btn-success">
+                    <i class="fa fa-plus"></i> 
+                    Agregar
+                </button>
+            </div>
+            <div class="pull-left dt-select-length"></div>
 
         </div>
     </div>
@@ -33,18 +36,63 @@
     </div>
 </div>
 
-
-<script type="text/ng-template" id="myModalContent.html">
+<!-- Modal gestión de libros -->
+<script type="text/ng-template" id="modalFormBook.html">
     <div class="modal-header">
-        <h3 class="modal-title" id="modal-title">I'm a modal!</h3>
+        <h3 class="modal-title" id="modal-title">
+            {{ $ctrl.form.data.id ? 'Editar libro' : 'Crear libro' }}
+        </h3>
     </div>
     <div class="modal-body" id="modal-body">
-        <ul>
-            <li ng-repeat="item in $ctrl.items">
-                <a href="#" ng-click="$event.preventDefault(); $ctrl.selected.item = item">{{ item }}</a>
-            </li>
-        </ul>
-        Selected: <b>{{ $ctrl.selected.item }}</b>
+        <form id="frm_books" name="frm_books">
+            <div class="form-group">
+                <label for="title">Título</label>
+                <input class="form-control"
+                       id="title"
+                       name="title"
+                       ng-model="$ctrl.form.data.title" />
+            </div>
+            <div class="form-group">
+                <label for="description">Descripción</label>
+                <textarea class="form-control"
+                       id="description"
+                       name="description"
+                       style="heigth: 100px; resize:none;"
+                       ng-model="$ctrl.form.data.description"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="quantity">Cantidad</label>
+                <input class="form-control"
+                       id="quantity"
+                       name="quantity"
+                       ng-model="$ctrl.form.data.quantity" />
+            </div>
+
+            <div class="form-group">
+                <label for="price">Precio</label>
+                <input class="form-control"
+                       id="price"
+                       name="price"
+                       ng-model="$ctrl.form.data.price" />
+            </div>
+
+            <div class="form-group">
+                <label for="author_id">Autor</label>
+                <input class="form-control"
+                       id="author_id"
+                       name="author_id"
+                       ng-model="$ctrl.form.data.authorId" />
+            </div>
+
+            <div class="form-group">
+                <label for="publisher_id">Publicador</label>
+                <input class="form-control"
+                       id="publisher_id"
+                       name="publisher_id"
+                       ng-model="$ctrl.form.data.publisherId" />
+            </div>
+        </form>
     </div>
     <div class="modal-footer">
         <button class="btn btn-primary" type="button" ng-click="$ctrl.accept()">OK</button>

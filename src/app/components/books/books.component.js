@@ -21,7 +21,7 @@ import 'datatables.net-responsive-bs/js/responsive.bootstrap.min.js';
 
 
 import BooksController from './books.controller.js';
-import ModalController from './modal.controller.js';
+import BooksModalController from './books.modal.controller.js';
 import BooksTemplate from './books.template.html';
 import BooksService from '../../services/books.service';
 
@@ -35,7 +35,7 @@ const BooksComponent = {
 
 angular.module(MODULE_NAME, [modal, 'datatables', 'datatables.bootstrap'])
 .controller('BooksController', BooksController)
-.controller('ModalController', ModalController)
+.controller('BooksModalController', BooksModalController)
 .service('BooksService', BooksService)
 .component('books', BooksComponent);
 
