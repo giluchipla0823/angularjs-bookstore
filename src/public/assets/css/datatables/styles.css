@@ -195,3 +195,7 @@ table.dataTable>tbody>tr.child ul li{
 .table.dataTable.collapsed > thead > tr > th{
     border-bottom: 1px solid #ddd;
 }
+
+.table.dataTable .dt-actions button{
+    margin-right: 5px;
+}

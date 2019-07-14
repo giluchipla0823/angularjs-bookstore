@@ -34,4 +34,11 @@ angular.module(MODULE_NAME, [
     AuthorsComponent,
     AppDirectives,
     AppServices
-]);
+])
+.config([
+    '$httpProvider',
+    function($httpProvider) {
+        /* $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+        $httpProvider.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded'; */
+        // $httpProvider.interceptors.push('myInterceptor');
+}]);    

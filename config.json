@@ -1,6 +1,6 @@
 {
   "API_URL": {
-    "production": "http://localhost/codeigniter-projects/codeigniter-bookstore/api/",
-    "development": "http://localhost/codeigniter-projects/codeigniter-bookstore/api/"
+    "production": "http://127.0.0.1:8000/api/",
+    "development": "http://127.0.0.1:8000/api/"
   }
 }

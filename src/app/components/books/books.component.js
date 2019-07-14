@@ -1,6 +1,6 @@
 import angular from 'angular';
+import ngMessages from 'angular-messages';
 import modal from 'angular-ui-bootstrap/src/modal';
-//import angularDatatables from 'angular-datatables';
 
 // Datatables - Styles
 import 'datatables.net-dt/css/jquery.dataTables.css';
@@ -18,6 +18,13 @@ import 'angular-datatables/dist/plugins/bootstrap/angular-datatables.bootstrap.j
 import 'datatables.net-responsive/js/dataTables.responsive.min.js';
 import 'datatables.net-responsive-bs/js/responsive.bootstrap.min.js';
 
+// Sweetalert
+import 'sweetalert';
+import 'ng-sweet-alert/ng-sweet-alert.js';
+import '../../../public/assets/css/sweetalert/sweetalert.css';
+
+// Validation
+import '../../../public/assets/js/libs/auto-validate/jcs-auto-validate.js';
 
 
 import BooksController from './books.controller.js';
@@ -33,7 +40,7 @@ const BooksComponent = {
     controllerAs: 'vm'
 };
 
-angular.module(MODULE_NAME, [modal, 'datatables', 'datatables.bootstrap'])
+angular.module(MODULE_NAME, [modal, 'datatables', 'datatables.bootstrap', 'ng-sweet-alert', ngMessages, 'jcs-autoValidate'])
 .controller('BooksController', BooksController)
 .controller('BooksModalController', BooksModalController)
 .service('BooksService', BooksService)

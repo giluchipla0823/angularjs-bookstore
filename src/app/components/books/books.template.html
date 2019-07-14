@@ -2,7 +2,26 @@
 <hr />
 
 
-<button type="button" class="btn btn-primary" ng-click="vm.nested.reloadData(true, {})">Reload data</button>
+<!-- <button type="button" class="btn btn-primary" ng-click="vm.nested.reloadData(true, {})">Reload data</button> -->
+
+<div class="form-group">
+    <form id="frm_search_books" name="frm_search_books"  ng-submit="vm.nested.reloadData(true, {})">
+        <div class="form-group">
+            <label for="search_title">Título</label>
+            <input type="text"
+                   class="form-control" 
+                   id="search_title"
+                   name="search_title"
+                   ng-model="vm.form.data.title"  />
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">
+                <i class="fa fa-search"></i> 
+                Buscar
+            </button>
+        </div>
+    </form>
+</div>
 
 <div class="panel panel-default panel-datatables">
     <div class="panel-heading clearfix">
@@ -44,13 +63,14 @@
         </h3>
     </div>
     <div class="modal-body" id="modal-body">
-        <form id="frm_books" name="frm_books">
+        <form id="frm_books" name="frm_books" novalidate="novalidate" ng-submit="$ctrl.save();">
             <div class="form-group">
                 <label for="title">Título</label>
                 <input class="form-control"
                        id="title"
                        name="title"
-                       ng-model="$ctrl.form.data.title" />
+                       ng-model="$ctrl.form.data.title"
+                       ng-required="true" />
             </div>
             <div class="form-group">
                 <label for="description">Descripción</label>
@@ -58,7 +78,8 @@
                        id="description"
                        name="description"
                        style="heigth: 100px; resize:none;"
-                       ng-model="$ctrl.form.data.description"></textarea>
+                       ng-model="$ctrl.form.data.description"
+                       ng-required="true"></textarea>
             </div>
 
             <div class="form-group">
@@ -66,7 +87,8 @@
                 <input class="form-control"
                        id="quantity"
                        name="quantity"
-                       ng-model="$ctrl.form.data.quantity" />
+                       ng-model="$ctrl.form.data.quantity"
+                       ng-required="true" />
             </div>
 
             <div class="form-group">
@@ -74,7 +96,8 @@
                 <input class="form-control"
                        id="price"
                        name="price"
-                       ng-model="$ctrl.form.data.price" />
+                       ng-model="$ctrl.form.data.price"
+                       ng-required="true" />
             </div>
 
             <div class="form-group">
@@ -82,7 +105,8 @@
                 <input class="form-control"
                        id="author_id"
                        name="author_id"
-                       ng-model="$ctrl.form.data.authorId" />
+                       ng-model="$ctrl.form.data.author_id"
+                       ng-required="true" />
             </div>
 
             <div class="form-group">
@@ -90,12 +114,21 @@
                 <input class="form-control"
                        id="publisher_id"
                        name="publisher_id"
-                       ng-model="$ctrl.form.data.publisherId" />
+                       ng-model="$ctrl.form.data.publisher_id"
+                       ng-required="true" />
             </div>
+            <button type="submit" 
+                    id="btn-submit-book" 
+                    class="btn btn-primary hide">
+                submit
+            </button>
         </form>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" type="button" ng-click="$ctrl.accept()">OK</button>
-        <button class="btn btn-default" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+        <button class="btn btn-primary" 
+                type="button"
+                onClick="angular.element('#btn-submit-book').submit()" 
+                >Guardar</button>
+        <button class="btn btn-default" type="button" ng-click="$ctrl.cancel()">Cancelar</button>
     </div>
 </script>

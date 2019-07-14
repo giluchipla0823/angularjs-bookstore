@@ -7,6 +7,21 @@ export const extractColumn = (arr, column) => {
     return arr.reduce(reduction, []);
 };
 
+export const errorResponse = {
+    validationForm: (message, errors) => {
+        let template = `<p>${message}<p><br />`;
+        template += `<ul style="text-align:left;">`;
+
+        errors.forEach(error => {
+            template += `<li>${ error.message }</li>`;
+        });
+
+        template += `</ul>`;
+
+        return template;
+    }
+};
+
 export const evalResponse = (response) => {
     if(!response){
         return false;
@@ -184,5 +199,6 @@ export const groupFnDatatablesWithAngular = (ngModel, $scope, $compile) =>{
 export default {
     evalResponse, 
     groupFnDatatablesWithAngular,
-    extractColumn
+    extractColumn,
+    errorResponse
 };

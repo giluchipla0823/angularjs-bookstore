@@ -5,23 +5,37 @@ import {
 }  from '../../../public/assets/js/jsCommonFunctions';
 
 class BooksController{
-    constructor($scope, $uibModal, BooksService, DTOptionsBuilder, DTColumnBuilder, $compile){
+    constructor($scope, SweetAlert, $uibModal, BooksService, DTDefaultOptions, DTOptionsBuilder, DTColumnBuilder, $compile){
+        this.sweetAlert = SweetAlert;
         this.compile = $compile;
         this.scope = $scope;
+        this.dtDefaultOptions = DTDefaultOptions;
         this.dtOptionsBuilder = DTOptionsBuilder;
         this.dtColumnBuilder = DTColumnBuilder;
         this.uibModal = $uibModal;
         this.booksService = BooksService;
         this.title = 'Books Page';
-        
-        // this.getBooks();
-
-        /* this.items = ['item1', 'item2', 'item3'];
-        this.selectedItem = null; */
-
         this.fnDatatables = groupFnDatatablesWithAngular('nested', this.scope, this.compile);
-
         this.loadDatatables();
+
+        this.events = {
+            'editBook': (book) => {
+                this.openModal(book);
+            },
+            'deleteBook': (book) => {
+                this.sweetAlert
+                    .confirm('¿Desea eliminar el libro seleccionado?')
+                    .then(isConfirm => { 
+                        if (isConfirm) {
+                            this.deleteBook(book.id);
+                        }
+                    });
+            }
+        };
+
+        this.form = {
+            data: {}
+        };
     }
 
     loadDatatables(){
@@ -31,6 +45,8 @@ class BooksController{
             dtInstance: {},
             items: {}
         };
+
+        vm.dtDefaultOptions.setOption('order', [[0, 'desc']]);
 
         vm.nested.dtOptions = vm.dtOptionsBuilder
                                 .newOptions()
@@ -45,6 +61,14 @@ class BooksController{
                                     type: 'GET',
                                     data: function(d) {
                                         d.includes = 'author,genres';
+
+                                        for(const i in vm.form.data){
+                                            const value = vm.form.data[i];
+
+                                            if(value){
+                                                d[i] = value;
+                                            }
+                                        }
                                     },
                                     'dataFilter': function(response){
                                         var json = JSON.parse(response);                                        
@@ -116,40 +140,33 @@ class BooksController{
             vm.dtColumnBuilder
                 .newColumn(null)
                 .withTitle('Actions')
+                .withOption('width', '20%')
                 .notSortable()
                 .renderWith(function(data, type, full, meta) {
                     vm.nested.items[data.id] = data;
 
-                    return `<button class="btn btn-default" ng-click="vm.editBook(vm.nested.items[${ data.id }]);">
-                                <i class="fa fa-edit"></i>
-                            </button>
-                            &nbsp;&nbsp;
-                            <button class="btn btn-danger" ng-click="vm.deleteBook(vm.nested.items[${ data.id }]);">
-                                <i class="fa fa-trash-o"></i>
-                            </button>`;
+                    return `<div class="dt-actions">
+                                <button class="btn btn-default" ng-click="vm.events.editBook(vm.nested.items[${ data.id }]);">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button class="btn btn-danger" ng-click="vm.events.deleteBook(vm.nested.items[${ data.id }]);">
+                                    <i class="fa fa-trash-o"></i>
+                                </button>
+                            </div>`;
                 })
         ];
 
         vm.nested.reloadData = vm.fnDatatables.reloadData;
     }
 
-    editBook(book) {
-        console.log('editBook', book);
-        this.openModal(book);
-    }
-
-    deleteBook(book) {
-        console.log('deleteBook', book);
-    }
-
-    /* getBooks(){
-        this.booksService.getBooks()
-            .then( response =>{
+    deleteBook(id) {
+        this.booksService.deleteBook(id)
+            .then(response => {
                 if(evalResponse(response)){
-                    console.log('books', response.data);
+                    this.nested.reloadData(true, {});
                 }
             });
-    } */
+    }
 
     openModal(data){
         const modalInstance = this.uibModal.open({
@@ -165,13 +182,13 @@ class BooksController{
         });
 
         modalInstance.result.then(response => {
-            console.log('Item seleccionado: ' + response );
+            this.nested.reloadData(response, {});
         }, () => {
             console.log('Modal dismissed at: ' + new Date());
         });
     }
 }
 
-BooksController.$inject = ['$scope', '$uibModal', 'BooksService', 'DTOptionsBuilder', 'DTColumnBuilder', '$compile'];
+BooksController.$inject = ['$scope', 'SweetAlert' , '$uibModal', 'BooksService', 'DTDefaultOptions', 'DTOptionsBuilder', 'DTColumnBuilder', '$compile'];
 
 export default BooksController;
