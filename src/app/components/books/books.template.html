@@ -4,10 +4,10 @@
 
 <!-- <button type="button" class="btn btn-primary" ng-click="vm.nested.reloadData(true, {})">Reload data</button> -->
 <!-- bs-loading-overlay-template-url="./templates/loading-overlay.html" -->
-<div id="loading-dt-books" 
+<!-- <div id="loading-dt-books" 
      class="bs-loading-container" 
      bs-loading-overlay
-     bs-loading-overlay-reference-id="first"
+     bs-loading-overlay-reference-id="loading-dt-books"
      
      bs-loading-overlay-active-class="loading-overlay--active">
       wefwfwef
@@ -16,7 +16,7 @@
       wefwfwef<br />     
       wefwfwef<br />     
       wefwfwef<br />     
-</div>
+</div> -->
 
 <div class="form-group">
     <form id="frm_search_books" name="frm_search_books"  ng-submit="vm.nested.reloadData(true, {})">
@@ -55,13 +55,18 @@
         </div>
     </div>
     
-      <table datatable="" 
-             dt-instance="vm.nested.dtInstance" 
-             dt-options="vm.nested.dtOptions"
-             dt-columns="vm.nested.dtColumns" 
-             class="table table-striped"
-             width="100%">
-      </table>
+    <div id="loading-dt-books" 
+          class="bs-loading-container" 
+          bs-loading-overlay
+          bs-loading-overlay-reference-id="loading-dt-books">  
+        <table datatable="" 
+               dt-instance="vm.nested.dtInstance" 
+               dt-options="vm.nested.dtOptions"
+               dt-columns="vm.nested.dtColumns" 
+               class="table table-striped"
+               width="100%">
+        </table>
+    </div>  
  
     <div class="panel-footer">
         <div class="row">

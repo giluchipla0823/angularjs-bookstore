@@ -2,9 +2,6 @@ import angular from 'angular';
 import ngMessages from 'angular-messages';
 import modal from 'angular-ui-bootstrap/src/modal';
 
-// Angular loagin overlay
-import 'angular-loading-overlay/dist/angular-loading-overlay.js';
-
 // Datatables - Styles
 import 'datatables.net-dt/css/jquery.dataTables.css';
 import 'angular-datatables/dist/plugins/bootstrap/datatables.bootstrap.min.css';
@@ -43,7 +40,7 @@ const BooksComponent = {
     controllerAs: 'vm'
 };
 
-angular.module(MODULE_NAME, [modal, 'datatables', 'datatables.bootstrap', 'ng-sweet-alert', ngMessages, 'jcs-autoValidate', 'bsLoadingOverlay'])
+angular.module(MODULE_NAME, [modal, 'datatables', 'datatables.bootstrap', 'ng-sweet-alert', ngMessages, 'jcs-autoValidate'])
 .controller('BooksController', BooksController)
 .controller('BooksModalController', BooksModalController)
 .service('BooksService', BooksService)

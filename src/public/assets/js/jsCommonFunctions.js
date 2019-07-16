@@ -1,11 +1,11 @@
 export const loadingOverlay = {
-    show: (bsLoadingOverlayService, referenceId) => {
-        bsLoadingOverlayService.start({
+    show: (instance, referenceId) => {
+        instance.start({
              referenceId: referenceId
         });
     },
-    hide: (bsLoadingOverlayService, referenceId) => {
-        bsLoadingOverlayService.stop({
+    hide: (instance, referenceId) => {
+        instance.stop({
              referenceId: referenceId
         });
     }

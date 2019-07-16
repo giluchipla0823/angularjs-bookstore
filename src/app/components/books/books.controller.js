@@ -7,29 +7,7 @@ import {
 
 class BooksController{
     constructor($scope, SweetAlert, $uibModal, BooksService, DTDefaultOptions, DTOptionsBuilder, DTColumnBuilder, $compile, bsLoadingOverlayService){
-
-        // this.loadingOverlayService = bsLoadingOverlayService;
-
-        //console.log(bsLoadingOverlayService.getGlobalConfig());
-    //     bsLoadingOverlayService.createHandler({
-    //     referenceId: 'handler-overlay'
-    // });
-
-        bsLoadingOverlayService.setGlobalConfig({
-            templateUrl: ./templates/loading-overlay.html
-        })
-
-        setTimeout(function(){
-
-            bsLoadingOverlayService.start({
-                referenceId: 'first'
-            });
-        }, 1000);
-
-        // bsLoadingOverlayService.start({
-        //     //referenceId: 'dt-loading-books'
-        // });
-
+        this.loadingOverlayService = bsLoadingOverlayService;
         this.sweetAlert = SweetAlert;
         this.compile = $compile;
         this.scope = $scope;
@@ -84,7 +62,7 @@ class BooksController{
                                     url: 'http://127.0.0.1:8000/api/books?listFormat=datatables',
                                     type: 'GET',
                                     beforeSend: function(){
-                                        //loadingOverlay.show(vm.loadingOverlayService, 'loading-dt-books');
+                                        loadingOverlay.show(vm.loadingOverlayService, 'loading-dt-books');
                                     },
                                     data: function(d) {
                                         d.includes = 'author,genres';
@@ -118,9 +96,9 @@ class BooksController{
                                     complete: function(response){
                                         var json = response.responseJSON;
 
-                                        //evalResponse(json);
-                                        
-                                        //loadingOverlay.hide(vm.bsLoadingOverlay, 'loading-dt-books');
+                                        evalResponse(json);
+
+                                        loadingOverlay.hide(vm.loadingOverlayService, 'loading-dt-books');
                                     }
                                 })
                                 .withOption('serverSide', true)
