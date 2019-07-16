@@ -1,7 +1,11 @@
 import angular from 'angular';
+//import 'angular-ui-bootstrap';
 
 // Styles
 import '../public/assets/css/styles.css';
+
+// // Angular loagin overlay
+// import 'angular-loading-overlay/dist/angular-loading-overlay.js';
 
 // Config
 import AppRoutes from './app.routes';
@@ -17,6 +21,7 @@ import HomeComponent from './components/home/home.component';
 import ContactComponent from './components/contact/contact.component';
 import BooksComponent from './components/books/books.component';
 import AuthorsComponent from './components/authors/authors.component';
+// import LoadingOverlayTemplate from './components/shared/loading-overlay/loading-overlay.template.html'
 
 // Services
 import AppServices from './services';
@@ -33,7 +38,9 @@ angular.module(MODULE_NAME, [
     BooksComponent,
     AuthorsComponent,
     AppDirectives,
-    AppServices
+    AppServices,
+    //'ui.bootstrap',
+    // 'bsLoadingOverlay'
 ])
 .config([
     '$httpProvider',
@@ -41,4 +48,10 @@ angular.module(MODULE_NAME, [
         /* $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
         $httpProvider.defaults.headers.common['Content-Type'] = 'application/x-www-form-urlencoded'; */
         // $httpProvider.interceptors.push('myInterceptor');
-}]);    
+}])
+//.run(['bsLoadingOverlayService', function(bsLoadingOverlayService) {
+    // bsLoadingOverlayService.setGlobalConfig({
+    //     templateUrl: 'components/shared/loading-overlay/loading-overlay.template.html'
+    //     // templateUrl: LoadingOverlayTemplate
+    // });
+//}]);

@@ -1,3 +1,16 @@
+export const loadingOverlay = {
+    show: (bsLoadingOverlayService, referenceId) => {
+        bsLoadingOverlayService.start({
+             referenceId: referenceId
+        });
+    },
+    hide: (bsLoadingOverlayService, referenceId) => {
+        bsLoadingOverlayService.stop({
+             referenceId: referenceId
+        });
+    }
+};
+
 export const extractColumn = (arr, column) => {
     function reduction(previousValue, currentValue) {
         previousValue.push(currentValue[column]);
@@ -200,5 +213,6 @@ export default {
     evalResponse, 
     groupFnDatatablesWithAngular,
     extractColumn,
-    errorResponse
+    errorResponse,
+    loadingOverlay
 };

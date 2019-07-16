@@ -1,11 +1,35 @@
 import {
     evalResponse, 
     groupFnDatatablesWithAngular,
-    extractColumn
+    extractColumn,
+    loadingOverlay
 }  from '../../../public/assets/js/jsCommonFunctions';
 
 class BooksController{
-    constructor($scope, SweetAlert, $uibModal, BooksService, DTDefaultOptions, DTOptionsBuilder, DTColumnBuilder, $compile){
+    constructor($scope, SweetAlert, $uibModal, BooksService, DTDefaultOptions, DTOptionsBuilder, DTColumnBuilder, $compile, bsLoadingOverlayService){
+
+        // this.loadingOverlayService = bsLoadingOverlayService;
+
+        //console.log(bsLoadingOverlayService.getGlobalConfig());
+    //     bsLoadingOverlayService.createHandler({
+    //     referenceId: 'handler-overlay'
+    // });
+
+        bsLoadingOverlayService.setGlobalConfig({
+            templateUrl: ./templates/loading-overlay.html
+        })
+
+        setTimeout(function(){
+
+            bsLoadingOverlayService.start({
+                referenceId: 'first'
+            });
+        }, 1000);
+
+        // bsLoadingOverlayService.start({
+        //     //referenceId: 'dt-loading-books'
+        // });
+
         this.sweetAlert = SweetAlert;
         this.compile = $compile;
         this.scope = $scope;
@@ -59,6 +83,9 @@ class BooksController{
                                     // url: './assets/data/persons.json',
                                     url: 'http://127.0.0.1:8000/api/books?listFormat=datatables',
                                     type: 'GET',
+                                    beforeSend: function(){
+                                        //loadingOverlay.show(vm.loadingOverlayService, 'loading-dt-books');
+                                    },
                                     data: function(d) {
                                         d.includes = 'author,genres';
 
@@ -87,6 +114,13 @@ class BooksController{
                                         }
 
                                         return data.data;
+                                    },
+                                    complete: function(response){
+                                        var json = response.responseJSON;
+
+                                        //evalResponse(json);
+                                        
+                                        //loadingOverlay.hide(vm.bsLoadingOverlay, 'loading-dt-books');
                                     }
                                 })
                                 .withOption('serverSide', true)
@@ -189,6 +223,6 @@ class BooksController{
     }
 }
 
-BooksController.$inject = ['$scope', 'SweetAlert' , '$uibModal', 'BooksService', 'DTDefaultOptions', 'DTOptionsBuilder', 'DTColumnBuilder', '$compile'];
+BooksController.$inject = ['$scope', 'SweetAlert' , '$uibModal', 'BooksService', 'DTDefaultOptions', 'DTOptionsBuilder', 'DTColumnBuilder', '$compile', 'bsLoadingOverlayService'];
 
 export default BooksController;

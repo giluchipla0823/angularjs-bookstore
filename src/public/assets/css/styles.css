@@ -63,3 +63,11 @@ code {
     content:" * ";
     color: #d9534f;
 }
+
+.bs-loading-container{
+    position: relative;;
+}
+
+.loading-overlay--active{
+    background: green;
+}
