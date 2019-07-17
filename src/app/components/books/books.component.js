@@ -28,11 +28,18 @@ import '../../../public/assets/css/sweetalert/sweetalert.css';
 // Validation
 import '../../../public/assets/js/libs/auto-validate/jcs-auto-validate.js';
 
+// Select2 
+import '../../../public/assets/css/select2/select2.css';
+import '../../../public/assets/css/select2/ui-select2.css';
+
+import '../../../public/assets/js/libs/select2/ui-select2.js';
+
 
 import BooksController from './books.controller.js';
 import BooksModalController from './books.modal.controller.js';
 import BooksTemplate from './books.template.html';
 import BooksService from '../../services/books.service';
+import AuthorsService from '../../services/authors.service';
 
 const MODULE_NAME = 'books.component';
 
@@ -43,10 +50,11 @@ const BooksComponent = {
 };
 
 // angular.module(MODULE_NAME, [modal, 'datatables', 'datatables.bootstrap', 'ng-sweet-alert', ngMessages, 'jcs-autoValidate', 'angular-ladda'])
-angular.module(MODULE_NAME, [modal, 'datatables', 'datatables.bootstrap', 'ng-sweet-alert', ngMessages, 'jcs-autoValidate', angularLadda])
+angular.module(MODULE_NAME, [modal, 'datatables', 'datatables.bootstrap', 'ng-sweet-alert', ngMessages, 'jcs-autoValidate', angularLadda, 'ui.select'])
 .controller('BooksController', BooksController)
 .controller('BooksModalController', BooksModalController)
 .service('BooksService', BooksService)
+.service('AuthorsService', AuthorsService)
 .component('books', BooksComponent);
 
 export default MODULE_NAME;

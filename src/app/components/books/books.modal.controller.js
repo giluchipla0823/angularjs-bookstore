@@ -1,4 +1,4 @@
-import { evalResponse, errorResponse }  from '../../../public/assets/js/jsCommonFunctions';
+import { evalResponse, errorResponse }  from '../../../public/assets/js/jsResponseFunctions';
 
 class BooksModalController{
 	constructor($uibModalInstance, Response, BooksService, SweetAlert){
@@ -58,9 +58,9 @@ class BooksModalController{
 					const template = errorResponse.validationForm(message, errors);
 
 					this.sweetAlert.alert(template, {html: true});
+				}else{
+					this.sweetAlert.alert(message);
 				}
-
-				this.sweetAlert.alert(message);
 			});
     }  
 
@@ -82,9 +82,9 @@ class BooksModalController{
 					const template = errorResponse.validationForm(message, errors);
 
 					this.sweetAlert.alert(template, {html: true});
+				}else{
+					this.sweetAlert.alert(message);
 				}
-
-				this.sweetAlert.alert(message);
 			});
     }  
 }

@@ -1,12 +1,10 @@
-import {
-    evalResponse, 
-    groupFnDatatablesWithAngular,
-    extractColumn,
-    loadingOverlay
-}  from '../../../public/assets/js/jsCommonFunctions';
+import { loadingOverlay } from '../../../public/assets/js/jsCommonFunctions';
+import { evalResponse } from '../../../public/assets/js/jsResponseFunctions';
+import { groupFnDatatablesWithAngular } from '../../../public/assets/js/jsDatatablesFunctions';
+import { extractColumn } from '../../../public/assets/js/jsArrayFunctions';
 
 class BooksController{
-    constructor($scope, SweetAlert, $uibModal, BooksService, DTDefaultOptions, DTOptionsBuilder, DTColumnBuilder, $compile, bsLoadingOverlayService){
+    constructor($scope, SweetAlert, $uibModal, BooksService, DTDefaultOptions, DTOptionsBuilder, DTColumnBuilder, $compile, bsLoadingOverlayService, AuthorsService){
         this.loadingOverlayService = bsLoadingOverlayService;
         this.sweetAlert = SweetAlert;
         this.compile = $compile;
@@ -16,6 +14,7 @@ class BooksController{
         this.dtColumnBuilder = DTColumnBuilder;
         this.uibModal = $uibModal;
         this.booksService = BooksService;
+        this.authorsService = AuthorsService;
         this.title = 'Books Page';
         this.fnDatatables = groupFnDatatablesWithAngular('nested', this.scope, this.compile);
         this.loadDatatables();
@@ -35,9 +34,49 @@ class BooksController{
             }
         };
 
+        this.author = {};
+
         this.form = {
             data: {}
         };
+
+        this.authors = {
+            loading: true,
+            data: []
+        }
+
+        this.getAuthors();
+    }
+
+    evtChangeAuthor(data){
+        delete this.form.data.author;
+
+        if(data){
+            this.form.data.author = {
+                name: data.name
+            }
+        }
+    };
+
+    getAuthors(){
+        this.authorsService.getAuthors()
+            .then( response => {
+                if(evalResponse(response)){
+                    const data = response.data;
+                    const authors = data.map(function (item) {
+                        const name = item.name;
+
+                        return {
+                            id: item.id,
+                            text: name,
+                            name: name
+                        }
+                    });
+
+                    this.authors.loading = false;
+                    this.authors.data = authors;
+                }
+            });
     }
 
     loadDatatables(){
@@ -59,12 +98,13 @@ class BooksController{
                                     // Either you specify the AjaxDataProp here
                                     // dataSrc: 'data',
                                     // url: './assets/data/persons.json',
-                                    url: 'http://127.0.0.1:8000/api/books?listFormat=datatables',
+                                    url: 'http://127.0.0.1:8000/api/books',
                                     type: 'GET',
                                     beforeSend: function(){
                                         loadingOverlay.show(vm.loadingOverlayService, 'loading-dt-books');
                                     },
                                     data: function(d) {
+                                        d.listFormat = 'datatables';
                                         d.includes = 'author,genres';
 
                                         for(const i in vm.form.data){
@@ -201,6 +241,6 @@ class BooksController{
     }
 }
 
-BooksController.$inject = ['$scope', 'SweetAlert' , '$uibModal', 'BooksService', 'DTDefaultOptions', 'DTOptionsBuilder', 'DTColumnBuilder', '$compile', 'bsLoadingOverlayService'];
+BooksController.$inject = ['$scope', 'SweetAlert' , '$uibModal', 'BooksService', 'DTDefaultOptions', 'DTOptionsBuilder', 'DTColumnBuilder', '$compile', 'bsLoadingOverlayService', 'AuthorsService'];
 
 export default BooksController;

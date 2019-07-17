@@ -1,4 +1,5 @@
 import angular from 'angular';
+import angularSanitize from 'angular-sanitize';
 
 // Styles
 import '../public/assets/css/styles.css';
@@ -27,6 +28,7 @@ import AppServices from './services';
 const MODULE_NAME = 'BookstoreApp';
 
 angular.module(MODULE_NAME, [
+    angularSanitize,
     AppRoutes,
     AppRun,
     FooterComponent,

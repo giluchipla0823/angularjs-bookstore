@@ -2,6 +2,21 @@
 <hr />
 
 
+<div class="form-group">
+    <label class="">Lista usando la directiva</label>
+    <template-select2
+        items="vm.authors.data"
+        placeholder="Seleccionar item"
+        control="vm.author"
+        theme="select2"
+        element-id="selector-persons"
+        search="true"
+        on-change="vm.evtChangeAuthor(vm.author.selected)"
+        disabled="vm.authors.loading"
+        allow-clear="true"
+    ></template-select2>
+</div>
+
 
 <div class="form-group">
     <form id="frm_search_books" name="frm_search_books"  ng-submit="vm.nested.reloadData(true, {})">
@@ -21,6 +36,8 @@
         </div>
     </form>
 </div>
+
+<pre>{{ vm.form.data | json }}</pre>
 
 <div class="panel panel-default panel-datatables">
     <div class="panel-heading clearfix">
