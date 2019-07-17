@@ -102,7 +102,7 @@ class BooksController{
                                     }
                                 })
                                 .withOption('serverSide', true)
-                                .withOption('processing', true)
+                                .withOption('processing', false)
                                 .withDOM("<'hide'lt>tr<'hide'ip>")
                                 .withPaginationType('full_numbers')
                                 .withOption('createdRow', vm.fnDatatables.createdRow)

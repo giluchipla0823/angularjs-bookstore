@@ -195,7 +195,7 @@ export const groupFnDatatablesWithAngular = (ngModel, $scope, $compile) =>{
           const data = $(a_ulRowDT[i]).data();
           const id = data.id;
           
-          $('.tr-'+ id +'').children().eq(0).trigger('click');
+          angular.element('.tr-'+ id +'').children().eq(0).trigger('click');
         }
     };
 

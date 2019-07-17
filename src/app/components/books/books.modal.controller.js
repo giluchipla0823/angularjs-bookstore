@@ -8,6 +8,7 @@ class BooksModalController{
 		this.book = Response;
 
 		this.form = {
+			loading: false,
 			data: {}
 		};
 
@@ -26,6 +27,8 @@ class BooksModalController{
 	}
 
 	save() {
+		this.form.loading = true;
+
 		if(this.form.data.id){
 			this.updateBook(this.form.data);
 		}else{
@@ -40,21 +43,38 @@ class BooksModalController{
 	createBook(book) {
         this.booksService.createBook(book)
             .then(response => {
+            	this.form.loading = false;
+
                 if(evalResponse(response)){
                     this.uibModalInstance.close(true);
                 }
-            });
+            }, error => {
+				const data = error.data;
+				const status = error.status;
+				const message = data.message;
+
+				if(status === 422){
+					const errors = data.errors;
+					const template = errorResponse.validationForm(message, errors);
+
+					this.sweetAlert.alert(template, {html: true});
+				}
+
+				this.sweetAlert.alert(message);
+			});
     }  
 
 	updateBook(book) {
         this.booksService.updateBook(book)
             .then(response => {
+            	this.form.loading = false;
+
                 if(evalResponse(response)){
                     this.uibModalInstance.close(false);
                 }
-            }, err => {
-				const data = err.data;
-				const status = err.status;
+            }, error => {
+				const data = error.data;
+				const status = error.status;
 				const message = data.message;
 
 				if(status === 422){

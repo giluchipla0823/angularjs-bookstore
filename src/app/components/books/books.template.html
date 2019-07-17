@@ -2,11 +2,6 @@
 <hr />
 
 
-<!-- <button type="button" class="btn btn-primary" ng-click="vm.nested.reloadData(true, {})">Reload data</button> -->
-
-<button ladda="true" 
-        data-style="expand-right" 
-        class="btn btn-primary ladda-button"><span class="ladda-label">Submit</span></button>
 
 <div class="form-group">
     <form id="frm_search_books" name="frm_search_books"  ng-submit="vm.nested.reloadData(true, {})">
@@ -136,10 +131,13 @@
         </form>
     </div>
     <div class="modal-footer">
-        <button class="btn btn-primary" 
+        <button class="btn btn-primary ladda-button"
+                data-style="expand-right"
+                ladda="$ctrl.form.loading" 
                 type="button"
-                onClick="angular.element('#btn-submit-book').submit()" 
-                >Guardar</button>
+                onClick="angular.element('#btn-submit-book').submit()">
+            <span class="ladda-label">Guardar</span>
+        </button>
         <button class="btn btn-default" type="button" ng-click="$ctrl.cancel()">Cancelar</button>
     </div>
 </script>
