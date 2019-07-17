@@ -15,7 +15,7 @@ class BooksController{
         this.uibModal = $uibModal;
         this.booksService = BooksService;
         this.authorsService = AuthorsService;
-        this.title = 'Books Page';
+        this.title = 'Books';
         this.fnDatatables = groupFnDatatablesWithAngular('nested', this.scope, this.compile);
         this.loadDatatables();
 
@@ -41,9 +41,9 @@ class BooksController{
         };
 
         this.authors = {
-            loading: true,
+            loading: false,
             data: []
-        }
+        };
 
         this.getAuthors();
     }
@@ -54,11 +54,13 @@ class BooksController{
         if(data){
             this.form.data.author = {
                 name: data.name
-            }
+            };
         }
-    };
+    }
 
     getAuthors(){
+        this.authors.loading = true;
+
         this.authorsService.getAuthors()
             .then( response => {
                 if(evalResponse(response)){
@@ -70,7 +72,7 @@ class BooksController{
                             id: item.id,
                             text: name,
                             name: name
-                        }
+                        };
                     });
 
                     this.authors.loading = false;

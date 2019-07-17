@@ -403,6 +403,7 @@ function Bootstrap3ElementModifierFn($log) {
     findWithClassElementAsc = function (el, klass) {
       var returnEl,
         parent = el;
+
       for (var i = 0; i <= 10; i += 1) {
         if (parent !== undefined && parent.hasClass(klass)) {
           returnEl = parent;
@@ -483,7 +484,10 @@ function Bootstrap3ElementModifierFn($log) {
       var frmGroupEl = findFormGroupElement(el),
         inputGroupEl;
 
+        
+
       if (frmGroupEl) {
+        console.log(frmGroupEl);
         reset(frmGroupEl);
         inputGroupEl = findInputGroupElement(frmGroupEl[0]);
         frmGroupEl.addClass('has-success ' + (inputGroupEl.length > 0 || addValidationStateIcons === false ? '' : 'has-feedback'));
@@ -514,6 +518,7 @@ function Bootstrap3ElementModifierFn($log) {
      * @param {Element} el - The input control element that is the target of the validation.
      */
     makeInvalid = function (el, errorMsg) {
+      console.log('make invalid');
       var frmGroupEl = findFormGroupElement(el),
         helpTextEl = angular.element('<span class="help-block has-error error-msg">' + errorMsg + '</span>'),
         inputGroupEl;
@@ -523,7 +528,7 @@ function Bootstrap3ElementModifierFn($log) {
         inputGroupEl = findInputGroupElement(frmGroupEl[0]);
         frmGroupEl.addClass('has-error ' + (inputGroupEl.length > 0 || addValidationStateIcons === false ? '' : 'has-feedback'));
         insertAfter(inputGroupEl.length > 0 ? inputGroupEl : getCorrectElementToPlaceErrorElementAfter(el), helpTextEl);
-        if (addValidationStateIcons) {
+        if (addValidationStateIcons && !el.hasClass('ui-select-focusser')) {
           var iconElText = '<span class="glyphicon glyphicon-remove form-control-feedback"></span>';
           if (inputGroupEl.length > 0) {
             iconElText = iconElText.replace('form-', '');
@@ -545,6 +550,10 @@ function Bootstrap3ElementModifierFn($log) {
         correctEl = el.parent();
       }
 
+      if(correctEl.hasClass('ui-select-focusser')){
+        correctEl = el.parents('.form-group').find('.select2-bootstrap-append').parent();
+      }
+
       return correctEl;
     },
 
@@ -560,6 +569,9 @@ function Bootstrap3ElementModifierFn($log) {
      */
     makeDefault = function (el) {
       var frmGroupEl = findFormGroupElement(el);
+
+      console.log('hola', frmGroupEl);
+
       if (frmGroupEl) {
         reset(frmGroupEl);
       } else {
@@ -1127,6 +1139,8 @@ function ValidationManagerFn(validator, elementUtils, $anchorScroll) {
                 isValid = true;
               } else {
                 validator.getErrorMessage(errorType, el).then(function (errorMsg) {
+                  
+
                   validator.makeInvalid(el, errorMsg);
                 });
               }

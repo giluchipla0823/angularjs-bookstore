@@ -50,6 +50,7 @@ const templateSelect2 = () => {
             control: '=', 
             placeholder: '@',
             search: '=?',
+            isRequired: '=?',
             disabled: '=?',
             onChange: '&', 
             formatSelected: '&?', 
@@ -73,6 +74,10 @@ const templateSelect2 = () => {
             $scope.isFormatSelected = false;
             $scope.isFormatResult = false;
 
+            if(!angular.isDefined($scope.isRequired)){
+                $scope.isRequired = false;
+            }
+
             if(angular.isDefined($scope.formatSelected)){
                 $scope.isFormatSelected = true;
             }
@@ -89,7 +94,7 @@ const templateSelect2 = () => {
             }
 
             return '<div class="select2-bootstrap-append">' +
-                       '<ui-select id="{{ elementId }}" ng-model="control.selected" theme="'+ theme +'" class="form-control" style="width: 100%;" title="{{ placeholder }}" ng-change="onChange()" search-enabled="search" ng-disabled="disabled" >' + 
+                       '<ui-select id="{{ elementId }}" name="{{ elementId }}" ng-required="isRequired" ng-model="control.selected" theme="'+ theme +'" class="form-control" style="width: 100%;" title="{{ placeholder }}" ng-change="onChange()" search-enabled="search" ng-disabled="disabled" >' + 
                             '<ui-select-match allow-clear="true" placeholder="{{ placeholder }}">' + 
                                 '<div ng-if="!isFormatSelected" ng-bind-html="$select.selected.text"></div>' + 
                                 '<div ng-if="isFormatSelected" ng-html-compile="formatSelected()"></div>' +

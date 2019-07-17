@@ -1,8 +1,9 @@
 import { evalResponse, errorResponse }  from '../../../public/assets/js/jsResponseFunctions';
 
 class BooksModalController{
-	constructor($uibModalInstance, Response, BooksService, SweetAlert){
+	constructor($uibModalInstance, Response, BooksService, SweetAlert, AuthorsService){
 		this.sweetAlert = SweetAlert;
+		this.authorsService = AuthorsService;
 		this.booksService = BooksService;
 		this.uibModalInstance = $uibModalInstance;
 		this.book = Response;
@@ -10,6 +11,13 @@ class BooksModalController{
 		this.form = {
 			loading: false,
 			data: {}
+		};
+
+		this.author = {};
+
+		this.authors = {
+			loading: false,
+			data: []
 		};
 
 		for(const i in this.book){
@@ -24,7 +32,47 @@ class BooksModalController{
 				this.form.data[i] = value;
 			}
 		}
+
+		this.getAuthors();
 	}
+
+	evtChangeAuthor(data){
+        delete this.form.data.author_id;
+
+        if(data){
+            this.form.data.author_id = data.id;
+        }
+    }
+
+	getAuthors(){
+		this.authors.loading = true;
+
+        this.authorsService.getAuthors()
+            .then( response => {
+                if(evalResponse(response)){
+                    const data = response.data;
+                    const authors = data.map( item => {
+                        const id = item.id;
+                        const name = item.name;
+
+						let obj = {
+                            id: id,
+                            text: name
+                        };
+
+						if(this.form.data.author_id == id){
+							obj.selected = true;
+							this.author.selected = obj;
+						}
+
+                        return obj;
+                    });
+
+                    this.authors.loading = false;
+                    this.authors.data = authors;
+                }
+            });
+    }
 
 	save() {
 		this.form.loading = true;
@@ -49,6 +97,8 @@ class BooksModalController{
                     this.uibModalInstance.close(true);
                 }
             }, error => {
+				this.form.loading = false;
+
 				const data = error.data;
 				const status = error.status;
 				const message = data.message;
@@ -73,6 +123,8 @@ class BooksModalController{
                     this.uibModalInstance.close(false);
                 }
             }, error => {
+				this.form.loading = false;
+				
 				const data = error.data;
 				const status = error.status;
 				const message = data.message;
@@ -89,6 +141,6 @@ class BooksModalController{
     }  
 }
 
-BooksModalController.$inject = ['$uibModalInstance', 'Response', 'BooksService', 'SweetAlert'];
+BooksModalController.$inject = ['$uibModalInstance', 'Response', 'BooksService', 'SweetAlert', 'AuthorsService'];
 
 export default BooksModalController;

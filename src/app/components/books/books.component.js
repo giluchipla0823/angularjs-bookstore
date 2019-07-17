@@ -31,9 +31,7 @@ import '../../../public/assets/js/libs/auto-validate/jcs-auto-validate.js';
 // Select2 
 import '../../../public/assets/css/select2/select2.css';
 import '../../../public/assets/css/select2/ui-select2.css';
-
 import '../../../public/assets/js/libs/select2/ui-select2.js';
-
 
 import BooksController from './books.controller.js';
 import BooksModalController from './books.modal.controller.js';
@@ -49,7 +47,6 @@ const BooksComponent = {
     controllerAs: 'vm'
 };
 
-// angular.module(MODULE_NAME, [modal, 'datatables', 'datatables.bootstrap', 'ng-sweet-alert', ngMessages, 'jcs-autoValidate', 'angular-ladda'])
 angular.module(MODULE_NAME, [modal, 'datatables', 'datatables.bootstrap', 'ng-sweet-alert', ngMessages, 'jcs-autoValidate', angularLadda, 'ui.select'])
 .controller('BooksController', BooksController)
 .controller('BooksModalController', BooksModalController)
