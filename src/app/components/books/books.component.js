@@ -2,6 +2,10 @@ import angular from 'angular';
 import ngMessages from 'angular-messages';
 import modal from 'angular-ui-bootstrap/src/modal';
 
+import 'ladda/dist/ladda-themeless.min.css';
+import 'ladda/js/ladda.js';
+import 'angular-ladda/dist/angular-ladda.js';
+
 // Datatables - Styles
 import 'datatables.net-dt/css/jquery.dataTables.css';
 import 'angular-datatables/dist/plugins/bootstrap/datatables.bootstrap.min.css';
@@ -40,7 +44,7 @@ const BooksComponent = {
     controllerAs: 'vm'
 };
 
-angular.module(MODULE_NAME, [modal, 'datatables', 'datatables.bootstrap', 'ng-sweet-alert', ngMessages, 'jcs-autoValidate'])
+angular.module(MODULE_NAME, [modal, 'datatables', 'datatables.bootstrap', 'ng-sweet-alert', ngMessages, 'jcs-autoValidate', 'angular-ladda'])
 .controller('BooksController', BooksController)
 .controller('BooksModalController', BooksModalController)
 .service('BooksService', BooksService)
