@@ -487,7 +487,7 @@ function Bootstrap3ElementModifierFn($log) {
         
 
       if (frmGroupEl) {
-        console.log(frmGroupEl);
+        // console.log(frmGroupEl);
         reset(frmGroupEl);
         inputGroupEl = findInputGroupElement(frmGroupEl[0]);
         frmGroupEl.addClass('has-success ' + (inputGroupEl.length > 0 || addValidationStateIcons === false ? '' : 'has-feedback'));
@@ -518,7 +518,7 @@ function Bootstrap3ElementModifierFn($log) {
      * @param {Element} el - The input control element that is the target of the validation.
      */
     makeInvalid = function (el, errorMsg) {
-      console.log('make invalid');
+      // console.log('make invalid');
       var frmGroupEl = findFormGroupElement(el),
         helpTextEl = angular.element('<span class="help-block has-error error-msg">' + errorMsg + '</span>'),
         inputGroupEl;
@@ -570,7 +570,7 @@ function Bootstrap3ElementModifierFn($log) {
     makeDefault = function (el) {
       var frmGroupEl = findFormGroupElement(el);
 
-      console.log('hola', frmGroupEl);
+      // console.log('hola', frmGroupEl);
 
       if (frmGroupEl) {
         reset(frmGroupEl);
