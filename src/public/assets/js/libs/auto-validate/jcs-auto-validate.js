@@ -391,7 +391,7 @@ function Bootstrap3ElementModifierFn($log) {
         addedCustomCss = true;
       }
 
-      angular.forEach(el.find('div.help-block-select2'), function (spanEl) {
+      angular.forEach(el.find('div.help-block-select2'), function (divEl) {
         divEl = angular.element(divEl);
         if (divEl.hasClass('error-msg') || divEl.hasClass('form-control-feedback') || divEl.hasClass('control-feedback')) {
           divEl.remove();

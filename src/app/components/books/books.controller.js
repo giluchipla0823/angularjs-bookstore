@@ -228,6 +228,7 @@ class BooksController{
           controller: 'BooksModalController',
           controllerAs: '$ctrl',
           size: '',
+          backdrop: 'static',
           resolve: {
             Response: () => {
                 return data;
