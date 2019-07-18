@@ -391,6 +391,13 @@ function Bootstrap3ElementModifierFn($log) {
         addedCustomCss = true;
       }
 
+      angular.forEach(el.find('div.help-block-select2'), function (spanEl) {
+        divEl = angular.element(divEl);
+        if (divEl.hasClass('error-msg') || divEl.hasClass('form-control-feedback') || divEl.hasClass('control-feedback')) {
+          divEl.remove();
+        }
+      });
+
       angular.forEach(el.find('span'), function (spanEl) {
         spanEl = angular.element(spanEl);
         if (spanEl.hasClass('error-msg') || spanEl.hasClass('form-control-feedback') || spanEl.hasClass('control-feedback')) {
@@ -528,7 +535,7 @@ function Bootstrap3ElementModifierFn($log) {
         inputGroupEl = findInputGroupElement(frmGroupEl[0]);
         frmGroupEl.addClass('has-error ' + (inputGroupEl.length > 0 || addValidationStateIcons === false ? '' : 'has-feedback'));
         insertAfter(inputGroupEl.length > 0 ? inputGroupEl : getCorrectElementToPlaceErrorElementAfter(el), helpTextEl);
-        if (addValidationStateIcons && !el.hasClass('ui-select-focusser')) {
+        if (addValidationStateIcons && !el.hasClass('ui-select-focusser') && !el.hasClass('dependency-ui-select')) {
           var iconElText = '<span class="glyphicon glyphicon-remove form-control-feedback"></span>';
           if (inputGroupEl.length > 0) {
             iconElText = iconElText.replace('form-', '');

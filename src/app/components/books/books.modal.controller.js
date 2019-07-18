@@ -37,10 +37,21 @@ class BooksModalController{
 	}
 
 	evtChangeAuthor(data){
+        let isValid = false;
+        const $_select = angular.element('#author.ui-select-container');
+        const $_form = angular.element('form[name="frm_books"]');
+
         delete this.form.data.author_id;
 
         if(data){
+        	isValid = true;
+        	$_form.scope().frm_books.author.$setPristine();
+
             this.form.data.author_id = data.id;
+        }
+
+        if(!isValid){
+        	$_select.parents('.form-group').addClass('has-error has-feedback');
         }
     }
 

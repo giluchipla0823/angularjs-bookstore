@@ -119,19 +119,32 @@
                        ng-required="true" />
             </div>
 
-            <div class="form-group">
+            <div class="form-group" ng-class="{
+       'has-error' : !frm_books.author.$valid
+       && !frm_books.author.$pristine
+       }">
                 <label for="author_id">Autor</label>
                 <template-select2
                     items="$ctrl.authors.data"
                     placeholder="Seleccionar"
                     control="$ctrl.author"
                     theme="select2"
-                    element-id="author_id"
+                    element-id="author"
                     search="true"
                     on-change="$ctrl.evtChangeAuthor($ctrl.author.selected)"
                     disabled="$ctrl.authors.loading"
                     allow-clear="true"
+                    is-required="true"
                 ></template-select2>
+
+                <div ng-messages="frm_books.author.$error"
+                      ng-if="!frm_books.author.$valid
+                      && !frm_books.author.$pristine"
+                     class="help-block error-msg help-block-select2">
+                    <span ng-message="required">
+                        Este campo es requerido
+                    </span>
+                </div>
             </div>
 
             <div class="form-group">
