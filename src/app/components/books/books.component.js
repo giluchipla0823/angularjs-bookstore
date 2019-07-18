@@ -38,6 +38,7 @@ import BooksModalController from './books.modal.controller.js';
 import BooksTemplate from './books.template.html';
 import BooksService from '../../services/books.service';
 import AuthorsService from '../../services/authors.service';
+import PublishersService from '../../services/publishers.service';
 
 const MODULE_NAME = 'books.component';
 
@@ -52,6 +53,7 @@ angular.module(MODULE_NAME, [modal, 'datatables', 'datatables.bootstrap', 'ng-sw
 .controller('BooksModalController', BooksModalController)
 .service('BooksService', BooksService)
 .service('AuthorsService', AuthorsService)
+.service('PublishersService', PublishersService)
 .component('books', BooksComponent);
 
 export default MODULE_NAME;

@@ -1,16 +1,24 @@
 import { evalResponse, errorResponse }  from '../../../public/assets/js/jsResponseFunctions';
 
 class BooksModalController{
-	constructor($uibModalInstance, Response, BooksService, SweetAlert, AuthorsService){
+	constructor($uibModalInstance, Response, BooksService, SweetAlert, AuthorsService, PublishersService){
 		this.sweetAlert = SweetAlert;
 		this.authorsService = AuthorsService;
 		this.booksService = BooksService;
+		this.publishersService = PublishersService;
 		this.uibModalInstance = $uibModalInstance;
 		this.book = Response;
 
 		this.form = {
 			loading: false,
 			data: {}
+		};
+
+		this.publisher = {};
+
+		this.publishers = {
+			loading: false,
+			data: []
 		};
 
 		this.author = {};
@@ -34,6 +42,7 @@ class BooksModalController{
 		}
 
 		this.getAuthors();
+		this.getPublishers();
 	}
 
 	evtChangeAuthor(data){
@@ -53,6 +62,55 @@ class BooksModalController{
         if(!isValid){
         	$_select.parents('.form-group').addClass('has-error has-feedback');
         }
+    }
+
+	evtChangePublisher(data){
+        let isValid = false;
+        const $_select = angular.element('#publisher.ui-select-container');
+        const $_form = angular.element('form[name="frm_books"]');
+
+        delete this.form.data.publisher_id;
+
+        if(data){
+        	isValid = true;
+        	$_form.scope().frm_books.publisher.$setPristine();
+
+            this.form.data.publisher_id = data.id;
+        }
+
+        if(!isValid){
+        	$_select.parents('.form-group').addClass('has-error has-feedback');
+        }
+    }
+
+	getPublishers(){
+		this.publishers.loading = true;
+
+        this.publishersService.getPublishers()
+            .then( response => {
+                if(evalResponse(response)){
+                    const data = response.data;
+                    const publishers = data.map( item => {
+                        const id = item.id;
+                        const name = item.name;
+
+						let obj = {
+                            id: id,
+                            text: name
+                        };
+
+						if(this.form.data.publisher_id == id){
+							obj.selected = true;
+							this.publisher.selected = obj;
+						}
+
+                        return obj;
+                    });
+
+                    this.publishers.loading = false;
+                    this.publishers.data = publishers;
+                }
+            });
     }
 
 	getAuthors(){
@@ -152,6 +210,6 @@ class BooksModalController{
     }  
 }
 
-BooksModalController.$inject = ['$uibModalInstance', 'Response', 'BooksService', 'SweetAlert', 'AuthorsService'];
+BooksModalController.$inject = ['$uibModalInstance', 'Response', 'BooksService', 'SweetAlert', 'AuthorsService', 'PublishersService'];
 
 export default BooksModalController;

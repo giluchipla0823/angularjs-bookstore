@@ -101,28 +101,31 @@
                        ng-required="true"></textarea>
             </div>
 
-            <div class="form-group">
-                <label for="quantity">Cantidad</label>
-                <input class="form-control"
-                       id="quantity"
-                       name="quantity"
-                       ng-model="$ctrl.form.data.quantity"
-                       ng-required="true" />
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="quantity">Cantidad</label>
+                        <input class="form-control"
+                            id="quantity"
+                            name="quantity"
+                            ng-model="$ctrl.form.data.quantity"
+                            ng-required="true" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="price">Precio</label>
+                        <input class="form-control"
+                            id="price"
+                            name="price"
+                            ng-model="$ctrl.form.data.price"
+                            ng-required="true" />
+                    </div>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label for="price">Precio</label>
-                <input class="form-control"
-                       id="price"
-                       name="price"
-                       ng-model="$ctrl.form.data.price"
-                       ng-required="true" />
-            </div>
-
-            <div class="form-group" ng-class="{
-       'has-error' : !frm_books.author.$valid
-       && !frm_books.author.$pristine
-       }">
+            <div class="form-group" 
+                 ng-class="{'has-error' : !frm_books.author.$valid && !frm_books.author.$pristine}">
                 <label for="author_id">Autor</label>
                 <template-select2
                     items="$ctrl.authors.data"
@@ -149,11 +152,27 @@
 
             <div class="form-group">
                 <label for="publisher_id">Publicador</label>
-                <input class="form-control"
-                       id="publisher_id"
-                       name="publisher_id"
-                       ng-model="$ctrl.form.data.publisher_id"
-                       ng-required="true" />
+                <template-select2
+                    items="$ctrl.publishers.data"
+                    placeholder="Seleccionar"
+                    control="$ctrl.publisher"
+                    theme="select2"
+                    element-id="publisher"
+                    search="true"
+                    on-change="$ctrl.evtChangePublisher($ctrl.publisher.selected)"
+                    disabled="$ctrl.publishers.loading"
+                    allow-clear="true"
+                    is-required="true"
+                ></template-select2>
+
+                <div ng-messages="frm_books.publisher.$error"
+                      ng-if="!frm_books.publisher.$valid
+                      && !frm_books.publisher.$pristine"
+                     class="help-block error-msg help-block-select2">
+                    <span ng-message="required">
+                        Este campo es requerido
+                    </span>
+                </div>
             </div>
             <button type="submit" 
                     id="btn-submit-book" 
