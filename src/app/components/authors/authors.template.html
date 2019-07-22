@@ -1,6 +1,98 @@
 <h1>{{ vm.title }}</h1>
 
-<ul>
-    <li ng-repeat="author in vm.authors.data">{{ author.name }}</li>
-</ul>
+<hr />
+<div class="form-group">
+    <form id="frm_search_authors" name="frm_search_authors"  ng-submit="vm.nested.reloadData(true, {})">
+        <div class="form-group">
+            <label for="search_name">Nombres</label>
+            <input type="text"
+                   class="form-control" 
+                   id="search_name"
+                   name="search_name"
+                   ng-model="vm.form.data.name"  />
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">
+                <i class="fa fa-search"></i> 
+                Buscar
+            </button>
+        </div>
+    </form>
+</div>
+
+<div class="panel panel-default panel-datatables">
+    <div class="panel-heading clearfix">
+        <div class="pull-left" style="margin-top: 10px;">
+            <h3 class="panel-title">Listado de Autores</h3>
+        </div>
+        <div class="pull-right">
+            <div class="pull-left">
+                <button ng-click="vm.openModal({})"
+                        class="btn btn-success">
+                    <i class="fa fa-plus"></i> 
+                    Agregar
+                </button>
+            </div>
+            <div class="pull-left dt-select-length"></div>
+
+        </div>
+    </div>
+    
+    <div id="loading-dt-authors" 
+          class="bs-loading-container" 
+          bs-loading-overlay
+          bs-loading-overlay-reference-id="loading-dt-authors">  
+        <table datatable="" 
+               dt-instance="vm.nested.dtInstance" 
+               dt-options="vm.nested.dtOptions"
+               dt-columns="vm.nested.dtColumns" 
+               class="table table-striped"
+               width="100%">
+        </table>
+    </div>  
+ 
+    <div class="panel-footer">
+        <div class="row">
+            <div class="col-md-5 dt-info-results"></div>
+            <div class="col-md-7 dt-pagination"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal gestión de autores -->
+<script type="text/ng-template" id="modalFormAuthor.html">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-title">
+            {{ $ctrl.form.data.id ? 'Editar autor' : 'Crear autor' }}
+        </h3>
+    </div>
+    <div class="modal-body" id="modal-body">
+        <form id="frm_authors" name="frm_authors" novalidate="novalidate" ng-submit="$ctrl.save();">
+            <div class="form-group">
+                <label for="name">Título</label>
+                <input class="form-control"
+                       id="name"
+                       name="name"
+                       ng-model="$ctrl.form.data.name"
+                       ng-required="true" />
+            </div>
+
+            <button type="submit" 
+                    id="btn-submit-author" 
+                    class="btn btn-primary hide">
+                submit
+            </button>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary ladda-button"
+                data-style="expand-right"
+                ladda="$ctrl.form.loading" 
+                type="button"
+                onClick="angular.element('#btn-submit-author').submit()">
+            <span class="ladda-label">Guardar</span>
+        </button>
+        <button class="btn btn-default" type="button" ng-click="$ctrl.cancel()">Cancelar</button>
+    </div>
+</script>
 

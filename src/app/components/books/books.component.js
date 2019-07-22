@@ -48,7 +48,16 @@ const BooksComponent = {
     controllerAs: 'vm'
 };
 
-angular.module(MODULE_NAME, [modal, 'datatables', 'datatables.bootstrap', 'ng-sweet-alert', ngMessages, 'jcs-autoValidate', angularLadda, 'ui.select'])
+angular.module(MODULE_NAME, [
+		modal, 
+		'datatables', 
+		'datatables.bootstrap', 
+		'ng-sweet-alert', 
+		ngMessages, 
+		'jcs-autoValidate', 
+		angularLadda, 
+		'ui.select'
+	])
 .controller('BooksController', BooksController)
 .controller('BooksModalController', BooksModalController)
 .service('BooksService', BooksService)

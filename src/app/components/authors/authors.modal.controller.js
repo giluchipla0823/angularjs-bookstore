@@ -1,0 +1,85 @@
+import { evalResponse, errorResponse }  from '../../../public/assets/js/jsResponseFunctions';
+
+class AuthorsModalController{
+	constructor($uibModalInstance, Response, AuthorsService, SweetAlert){
+		this.sweetAlert = SweetAlert;
+		this.authorsService = AuthorsService;
+		this.uibModalInstance = $uibModalInstance;
+		this.author = Response;
+
+		this.form = {
+			loading: false,
+			data: this.author
+		};
+	}
+
+	save() {
+		this.form.loading = true;
+
+		if(this.form.data.id){
+			this.updateAuthor(this.form.data);
+		}else{
+			this.createAuthor(this.form.data);
+		}
+  	}
+
+  	cancel() {
+    	this.uibModalInstance.dismiss('cancel');
+  	}
+
+	createAuthor(author) {
+        this.authorsService.createAuthor(author)
+            .then(response => {
+            	this.form.loading = false;
+
+                if(evalResponse(response)){
+                    this.uibModalInstance.close(true);
+                }
+            }, error => {
+				this.form.loading = false;
+
+				const data = error.data;
+				const status = error.status;
+				const message = data.message;
+
+				if(status === 422){
+					const errors = data.errors;
+					const template = errorResponse.validationForm(message, errors);
+
+					this.sweetAlert.alert(template, {html: true});
+				}else{
+					this.sweetAlert.alert(message);
+				}
+			});
+    }  
+
+	updateAuthor(author) {
+        this.authorsService.updateAuthor(author)
+            .then(response => {
+            	this.form.loading = false;
+
+                if(evalResponse(response)){
+                    this.uibModalInstance.close(false);
+                }
+            }, error => {
+				this.form.loading = false;
+				
+				const data = error.data;
+				const status = error.status;
+				const message = data.message;
+
+				if(status === 422){
+					const errors = data.errors;
+					const template = errorResponse.validationForm(message, errors);
+
+					this.sweetAlert.alert(template, {html: true});
+				}else{
+					this.sweetAlert.alert(message);
+				}
+			});
+    }  
+}
+
+AuthorsModalController.$inject = ['$uibModalInstance', 'Response', 'AuthorsService', 'SweetAlert'];
+
+export default AuthorsModalController;

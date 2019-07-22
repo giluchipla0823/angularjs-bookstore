@@ -158,7 +158,8 @@ class BooksController{
             vm.dtColumnBuilder
                 .newColumn('id')
                 .withTitle('ID')
-                .withOption('name', 'id'),
+                .withOption('name', 'id')
+                .withOption('class', 'dt-body-center'),
             vm.dtColumnBuilder
                 .newColumn('title')
                 .withTitle('Title')
