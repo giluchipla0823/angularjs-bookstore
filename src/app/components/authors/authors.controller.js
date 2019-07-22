@@ -2,6 +2,7 @@ import { loadingOverlay } from '../../../public/assets/js/jsCommonFunctions';
 import { evalResponse } from '../../../public/assets/js/jsResponseFunctions';
 import { groupFnDatatablesWithAngular } from '../../../public/assets/js/jsDatatablesFunctions';
 
+
 class AuthorsController{
     constructor($scope, SweetAlert, $uibModal, AuthorsService, DTDefaultOptions, DTOptionsBuilder, DTColumnBuilder, $compile, bsLoadingOverlayService){
         this.loadingOverlayService = bsLoadingOverlayService;
