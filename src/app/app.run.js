@@ -33,9 +33,10 @@ angular.module(MODULE_NAME, [])
             validator.setInvalidElementStyling(true);
             bootstrap3ElementModifier.enableValidationStateIcons(true);
 
-            defaultErrorMessageResolver.getErrorMessages().then(function (errorMessages) {
+            /* defaultErrorMessageResolver.getErrorMessages().then(function (errorMessages) {
                 errorMessages['defaultMessageEmail'] = 'Please enter a valid email address.';
-            });
+                errorMessages['defaultMessagePrice'] = 'Please enter a valid price.';
+            }); */
         }]);
 
 export default MODULE_NAME;

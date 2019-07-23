@@ -85,7 +85,8 @@
         <form id="frm_books" name="frm_books" novalidate="novalidate" ng-submit="$ctrl.save();">
             <div class="form-group">
                 <label for="title">Título</label>
-                <input class="form-control"
+                <input type="text" 
+                       class="form-control"
                        id="title"
                        name="title"
                        ng-model="$ctrl.form.data.title"
@@ -105,21 +106,29 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="quantity">Cantidad</label>
-                        <input class="form-control"
-                            id="quantity"
-                            name="quantity"
-                            ng-model="$ctrl.form.data.quantity"
-                            ng-required="true" />
+                        <input type="number"
+                               class="form-control"
+                               id="quantity"
+                               name="quantity"
+                               ng-model="$ctrl.form.data.quantity"
+                               maxlength="5"
+                               min="0"
+                               ng-required="true"
+                               ng-pattern="/^[0-9]*$/"
+                               ng-pattern-err-type="number" />
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="price">Precio</label>
-                        <input class="form-control"
-                            id="price"
-                            name="price"
-                            ng-model="$ctrl.form.data.price"
-                            ng-required="true" />
+                        <input type="text"
+                               class="form-control"
+                               id="price"
+                               name="price"
+                               ng-model="$ctrl.form.data.price"
+                               ng-pattern="/^[0-9]+(\.[0-9][0-9])?$/i"
+                               ng-pattern-err-type="price"
+                               ng-required="true" />
                     </div>
                 </div>
             </div>

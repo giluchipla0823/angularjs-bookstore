@@ -6,6 +6,7 @@ table.dataTable.table > thead > tr > th
 , table.dataTable.table > tfoot > tr > th{
     border-right: 1px solid #ddd;
     border-top:0;
+    text-align: center;
 }
 
 table.dataTable.table > tbody > tr > td{
@@ -63,6 +64,7 @@ table.dataTable, table.dataTable th, table.dataTable td{
 
 .dataTables_length select{
     display: inline !important;
+    width: auto;
 }
 
 .table > thead > tr > th{
