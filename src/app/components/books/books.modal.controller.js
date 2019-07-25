@@ -1,23 +1,25 @@
 import { evalResponse, errorResponse }  from '../../../public/assets/js/jsResponseFunctions';
+import { extractColumn } from '../../../public/assets/js/jsArrayFunctions';
 
 class BooksModalController{
-	constructor($uibModalInstance, Response, BooksService, SweetAlert, AuthorsService, PublishersService){
+	constructor($uibModalInstance, Response, BooksService, SweetAlert, AuthorsService, PublishersService, GenresService){
 		this.sweetAlert = SweetAlert;
 		this.authorsService = AuthorsService;
 		this.booksService = BooksService;
 		this.publishersService = PublishersService;
+		this.genresService = GenresService;
 		this.uibModalInstance = $uibModalInstance;
 		this.book = Response;
 
-		if(!this.book.genres){
-			this.book.genres = [];
-		}
+		// if(!this.book.genres){
+		// 	this.book.genres = [];
+		// }
 
-		this.book.genres = this.book.genres.map(function(genre){
-			genre.text = genre.name
+		// this.book.genres = this.book.genres.map(function(genre){
+		// 	genre.text = genre.name
 
-			return genre;
-		})
+		// 	return genre;
+		// })
 
 		this.form = {
 			loading: false,
@@ -53,12 +55,13 @@ class BooksModalController{
 
 		this.genres = {
 			loading: false,
-			data: this.book.genres,
+			data: [],
 			selected: []
 		};
 
 		this.getAuthors();
 		this.getPublishers();
+		this.getGenres();
 	}
 
 	evtChangeAuthor(data){
@@ -159,6 +162,34 @@ class BooksModalController{
             });
     }
 
+    getGenres(){
+    	const genresIdsSelected =  extractColumn(this.book.genres || [], 'id');
+
+
+
+
+		this.genres.loading = true;
+
+        this.genresService.getGenres()
+            .then( response => {
+                if(evalResponse(response)){
+                    const data = response.data;
+                    const genres = data.map( item => {
+                        item.text = item.id +  ' - ' + item.name;
+
+						if(genresIdsSelected.indexOf(item.id) >= 0){
+							this.genres.selected.push(item);
+						}
+
+                        return item; 
+                    });
+
+                    this.genres.loading = false;
+                    this.genres.data = genres;
+                }
+            });
+    }
+
 	save() {
 		var $scopeForm = angular.element('form[name="frm_books"]').scope().frm_books;
 
@@ -232,6 +263,6 @@ class BooksModalController{
     }  
 }
 
-BooksModalController.$inject = ['$uibModalInstance', 'Response', 'BooksService', 'SweetAlert', 'AuthorsService', 'PublishersService'];
+BooksModalController.$inject = ['$uibModalInstance', 'Response', 'BooksService', 'SweetAlert', 'AuthorsService', 'PublishersService', 'GenresService'];
 
 export default BooksModalController;

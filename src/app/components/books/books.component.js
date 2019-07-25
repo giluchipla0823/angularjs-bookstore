@@ -39,6 +39,7 @@ import BooksTemplate from './books.template.html';
 import BooksService from '../../services/books.service';
 import AuthorsService from '../../services/authors.service';
 import PublishersService from '../../services/publishers.service';
+import GenresService from '../../services/genres.service';
 
 const MODULE_NAME = 'books.component';
 
@@ -63,6 +64,7 @@ angular.module(MODULE_NAME, [
 .service('BooksService', BooksService)
 .service('AuthorsService', AuthorsService)
 .service('PublishersService', PublishersService)
+.service('GenresService', GenresService)
 .component('books', BooksComponent);
 
 export default MODULE_NAME;

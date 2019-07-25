@@ -1017,7 +1017,12 @@ uis.controller('uiSelectCtrl',
     }
 
     var highlighted = choices[ctrl.activeIndex];
-    var posY = highlighted.offsetTop + highlighted.clientHeight - container[0].scrollTop;
+
+    if(!highlighted){
+      return;
+    }
+
+    var posY = (highlighted.offsetTop || 0) + highlighted.clientHeight - container[0].scrollTop;
     var height = container[0].offsetHeight;
 
     if (posY > height) {
