@@ -62,7 +62,8 @@
 <!-- Modal gestión de autores -->
 <script type="text/ng-template" id="modalFormAuthor.html">
     <div class="modal-header">
-        <h3 class="modal-title" id="modal-title">
+        <button type="button" class="close" ng-click="$ctrl.cancel()">&times;</button>
+        <h3 class="modal-title">
             {{ $ctrl.form.data.id ? 'Editar autor' : 'Crear autor' }}
         </h3>
     </div>
