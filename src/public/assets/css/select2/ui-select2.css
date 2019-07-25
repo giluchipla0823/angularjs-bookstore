@@ -33,6 +33,7 @@
 /* Select2 theme */
 
 /* Mark invalid Select2 */
+.has-error .ng-invalid.ui-select-container.ui-select-multiple , 
 .has-error .ng-invalid > a.select2-choice,
 .ng-dirty.ng-invalid > a.select2-choice {
     border-color: #a94442;

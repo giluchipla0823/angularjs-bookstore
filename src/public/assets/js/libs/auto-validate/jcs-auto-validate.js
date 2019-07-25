@@ -405,7 +405,11 @@ function Bootstrap3ElementModifierFn($log) {
         }
       });
 
-      el.removeClass('has-success has-error has-feedback');
+      if(!el.hasClass('no-jcs-autovalidate')){
+        el.removeClass('has-error');
+      }
+
+      el.removeClass('has-success has-feedback');
     },
     findWithClassElementAsc = function (el, klass) {
       var returnEl,

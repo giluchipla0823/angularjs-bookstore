@@ -9,10 +9,33 @@ class BooksModalController{
 		this.uibModalInstance = $uibModalInstance;
 		this.book = Response;
 
+		if(!this.book.genres){
+			this.book.genres = [];
+		}
+
+		this.book.genres = this.book.genres.map(function(genre){
+			genre.text = genre.name
+
+			return genre;
+		})
+
 		this.form = {
 			loading: false,
 			data: {}
 		};
+
+		for(const i in this.book){
+			const value = this.book[i];
+
+			if(i === 'authorId'){
+				this.form.data.author_id = value;
+			}
+			else if(i === 'publisherId'){
+				this.form.data.publisher_id = value;
+			}else{
+				this.form.data[i] = value;
+			}
+		}
 
 		this.publisher = {};
 
@@ -28,18 +51,11 @@ class BooksModalController{
 			data: []
 		};
 
-		for(const i in this.book){
-			const value = this.book[i];
-
-			if(i === 'authorId'){
-				this.form.data.author_id = value;
-			}
-			else if(i === 'publisherId'){
-				this.form.data.publisher_id = value;
-			}else{
-				this.form.data[i] = value;
-			}
-		}
+		this.genres = {
+			loading: false,
+			data: this.book.genres,
+			selected: []
+		};
 
 		this.getAuthors();
 		this.getPublishers();
@@ -144,6 +160,12 @@ class BooksModalController{
     }
 
 	save() {
+		var $scopeForm = angular.element('form[name="frm_books"]').scope().frm_books;
+
+		if($scopeForm.$invalid){
+			return;
+		}
+
 		this.form.loading = true;
 
 		if(this.form.data.id){
