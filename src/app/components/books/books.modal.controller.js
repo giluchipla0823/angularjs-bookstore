@@ -162,12 +162,16 @@ class BooksModalController{
             });
     }
 
+	evtChangeGenres(data){
+        delete this.form.data.genres;
+
+        if(data.length > 0){
+            this.form.data.genres =  extractColumn(data, 'id');
+        }
+    }
+
     getGenres(){
     	const genresIdsSelected =  extractColumn(this.book.genres || [], 'id');
-
-
-
-
 		this.genres.loading = true;
 
         this.genresService.getGenres()

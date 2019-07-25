@@ -197,6 +197,7 @@
                     element-id="genres"
                     search="true"
                     disabled="$ctrl.genres.loading"
+                    on-change="$ctrl.evtChangeGenres($ctrl.genres.selected)"
                     allow-clear="true"
                     is-required="true"
                     is-multiple="true"
