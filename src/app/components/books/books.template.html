@@ -77,7 +77,8 @@
 <!-- Modal gestión de libros -->
 <script type="text/ng-template" id="modalFormBook.html">
     <div class="modal-header">
-        <h3 class="modal-title" id="modal-title">
+        <button type="button" class="close" ng-click="$ctrl.cancel()">&times;</button>
+        <h3 class="modal-title">
             {{ $ctrl.form.data.id ? 'Editar libro' : 'Crear libro' }}
         </h3>
     </div>
@@ -134,7 +135,7 @@
             </div>
 
             <div class="form-group" 
-                 ng-class="{'has-error' : !frm_books.author.$valid && !frm_books.author.$pristine}">
+                 ng-class="{'has-error': !frm_books.author.$valid && !frm_books.author.$pristine}">
                 <label for="author_id">Autor</label>
                 <template-select2
                     items="$ctrl.authors.data"
@@ -185,7 +186,6 @@
                 </div>
             </div>
 
-
             <div class="form-group no-jcs-autovalidate"
                  ng-class="{'has-error' : !frm_books.genres.$valid && (!frm_books.genres.$pristine || frm_books.$submitted)}">
                 <label for="genres">Géneros</label>
@@ -211,8 +211,6 @@
                         Este campo es requerido
                     </span>
                 </div>
-
-                <!-- <pre>{{ $ctrl.genres | json }}</pre> -->
             </div>
 
             <button type="submit" 
