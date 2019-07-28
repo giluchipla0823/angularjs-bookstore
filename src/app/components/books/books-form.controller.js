@@ -1,7 +1,7 @@
 import { evalResponse, errorResponse }  from '../../../public/assets/js/jsResponseFunctions';
 import { extractColumn } from '../../../public/assets/js/jsArrayFunctions';
 
-class BooksModalController{
+class BooksFormController{
 	constructor($uibModalInstance, Response, BooksService, SweetAlert, AuthorsService, PublishersService, GenresService){
 		this.sweetAlert = SweetAlert;
 		this.authorsService = AuthorsService;
@@ -10,16 +10,6 @@ class BooksModalController{
 		this.genresService = GenresService;
 		this.uibModalInstance = $uibModalInstance;
 		this.book = Response;
-
-		// if(!this.book.genres){
-		// 	this.book.genres = [];
-		// }
-
-		// this.book.genres = this.book.genres.map(function(genre){
-		// 	genre.text = genre.name
-
-		// 	return genre;
-		// })
 
 		this.form = {
 			loading: false,
@@ -252,11 +242,10 @@ class BooksModalController{
 				this.form.loading = false;
 				
 				const data = error.data;
-				const status = error.status;
 				const message = data.message;
+				const errors = data.errors;
 
-				if(status === 422){
-					const errors = data.errors;
+				if(errors){
 					const template = errorResponse.validationForm(message, errors);
 
 					this.sweetAlert.alert(template, {html: true});
@@ -267,6 +256,6 @@ class BooksModalController{
     }  
 }
 
-BooksModalController.$inject = ['$uibModalInstance', 'Response', 'BooksService', 'SweetAlert', 'AuthorsService', 'PublishersService', 'GenresService'];
+BooksFormController.$inject = ['$uibModalInstance', 'Response', 'BooksService', 'SweetAlert', 'AuthorsService', 'PublishersService', 'GenresService'];
 
-export default BooksModalController;
+export default BooksFormController;

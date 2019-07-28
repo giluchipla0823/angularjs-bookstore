@@ -2,6 +2,7 @@ import { loadingOverlay } from '../../../public/assets/js/jsCommonFunctions';
 import { evalResponse } from '../../../public/assets/js/jsResponseFunctions';
 import { groupFnDatatablesWithAngular } from '../../../public/assets/js/jsDatatablesFunctions';
 import { extractColumn } from '../../../public/assets/js/jsArrayFunctions';
+import BooksFormTemplate from './books-form.template.html';
 
 class BooksController{
     constructor($scope, SweetAlert, $uibModal, BooksService, DTDefaultOptions, DTOptionsBuilder, DTColumnBuilder, $compile, bsLoadingOverlayService, AuthorsService){
@@ -224,9 +225,9 @@ class BooksController{
     }
 
     openModal(data){
-        const modalInstance = this.uibModal.open({
-          templateUrl: 'modalFormBook.html',
-          controller: 'BooksModalController',
+        const modalInstance = this.uibModal.open({  
+          template: BooksFormTemplate,
+          controller: 'BooksFormController',
           controllerAs: '$ctrl',
           size: '',
           backdrop: 'static',
