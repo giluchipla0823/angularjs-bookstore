@@ -1,6 +1,6 @@
 import { evalResponse, errorResponse }  from '../../../public/assets/js/jsResponseFunctions';
 
-class AuthorsModalController{
+class AuthorsFormController{
 	constructor($uibModalInstance, Response, AuthorsService, SweetAlert){
 		this.sweetAlert = SweetAlert;
 		this.authorsService = AuthorsService;
@@ -80,6 +80,6 @@ class AuthorsModalController{
     }  
 }
 
-AuthorsModalController.$inject = ['$uibModalInstance', 'Response', 'AuthorsService', 'SweetAlert'];
+AuthorsFormController.$inject = ['$uibModalInstance', 'Response', 'AuthorsService', 'SweetAlert'];
 
-export default AuthorsModalController;
+export default AuthorsFormController;

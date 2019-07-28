@@ -4,6 +4,31 @@ import { select2Functions } from '../../public/assets/js/jsSelect2Functions';
 
 const MODULE_NAME = 'app.directives';
 
+const myMaxlength = function() {
+  return {
+    require: 'ngModel',
+    link: function (scope, element, attrs, ngModelCtrl) {
+      var maxlength = Number(attrs.myMaxlength);
+
+      function fromUser(text) {
+          if(!text){
+              text = '';
+          }
+
+          if (text.length > maxlength) {
+            var transformedInput = text.substring(0, maxlength);
+            ngModelCtrl.$setViewValue(transformedInput);
+            ngModelCtrl.$render();
+            return transformedInput;
+          } 
+          return text;
+      }
+
+      ngModelCtrl.$parsers.push(fromUser);
+    }
+  }; 
+};
+
 // Directiva "routerLink" para marcar menu seleccionado
 const routerLink = ($route) => {
     return {
@@ -108,6 +133,7 @@ const templateSelect2 = () => {
 
 angular.module(MODULE_NAME, [])
     .directive('routerLink', ['$route', routerLink])
-    .directive('templateSelect2', [templateSelect2]);
+    .directive('templateSelect2', [templateSelect2])
+    .directive('myMaxlength', [myMaxlength]);
 
 export default MODULE_NAME;

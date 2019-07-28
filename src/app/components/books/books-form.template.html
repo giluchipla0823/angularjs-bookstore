@@ -20,7 +20,7 @@
             <textarea class="form-control"
                     id="description"
                     name="description"
-                    style="heigth: 100px; resize:none;"
+                    style="height: 100px; resize:none;"
                     ng-model="$ctrl.form.data.description"
                     ng-required="true"></textarea>
         </div>
@@ -30,16 +30,19 @@
                 <div class="form-group">
                     <label for="quantity">Cantidad</label>
                     <input type="number"
-                            class="form-control"
-                            id="quantity"
-                            name="quantity"
-                            ng-model="$ctrl.form.data.quantity"
-                            maxlength="5"
-                            min="0"
-                            ng-required="true"
-                            ng-pattern="/^[0-9]*$/"
-                            ng-pattern-err-type="number" />
+                           class="form-control"
+                           id="quantity"
+                           name="quantity"
+                           ng-model="$ctrl.form.data.quantity"
+                           maxlength="5"
+                           min="0"
+                           my-maxlength="5"
+                           ng-required="true"
+                           ng-pattern="/^[0-9]*$/"
+                           autocomplete="off"
+                           ng-pattern-err-type="number" />
                 </div>
+                
             </div>
             <div class="col-md-6">
                 <div class="form-group">

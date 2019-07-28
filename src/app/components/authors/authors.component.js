@@ -30,7 +30,7 @@ import '../../../public/assets/js/libs/auto-validate/jcs-auto-validate.js';
 
 
 import AuthorsController from './authors.controller.js';
-import AuthorsModalController from './authors.modal.controller.js';
+import AuthorsFormController from './authors-form.controller.js';
 import AuthorsTemplate from './authors.template.html';
 import AuthorsService from '../../services/authors.service.js';
 
@@ -52,7 +52,7 @@ angular.module(MODULE_NAME, [
 		angularLadda
 	])
     .controller('AuthorsController', AuthorsController)
-    .controller('AuthorsModalController', AuthorsModalController)
+    .controller('AuthorsFormController', AuthorsFormController)
     .service('AuthorsService', AuthorsService)
     .component('authors', AuthorsComponent);
 

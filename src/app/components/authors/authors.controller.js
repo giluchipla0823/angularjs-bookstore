@@ -1,7 +1,7 @@
 import { loadingOverlay } from '../../../public/assets/js/jsCommonFunctions';
 import { evalResponse } from '../../../public/assets/js/jsResponseFunctions';
 import { groupFnDatatablesWithAngular } from '../../../public/assets/js/jsDatatablesFunctions';
-
+import AuthorsFormTemplate from './authors-form.template.html';
 
 class AuthorsController{
     constructor($scope, SweetAlert, $uibModal, AuthorsService, DTDefaultOptions, DTOptionsBuilder, DTColumnBuilder, $compile, bsLoadingOverlayService){
@@ -154,8 +154,8 @@ class AuthorsController{
 
     openModal(data){
         const modalInstance = this.uibModal.open({
-          templateUrl: 'modalFormAuthor.html',
-          controller: 'AuthorsModalController',
+          template: AuthorsFormTemplate,
+          controller: 'AuthorsFormController',
           controllerAs: '$ctrl',
           size: '',
           backdrop: 'static',
