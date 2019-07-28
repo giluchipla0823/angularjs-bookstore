@@ -129,11 +129,35 @@ const templateSelect2 = () => {
     };
 };
 
+const numbersOnly = () => {
+        return {
+            require: 'ngModel',
+            restrict: 'A',
+            link: function (scope, element, attrs, ctrl) {
+                function validation(input) {
+                    if (!input) return '';
+
+                    var inputNumber = input.toString().replace(/[^0-9]/g, '');
+
+                    if (inputNumber !== input) {
+                        ctrl.$setViewValue(inputNumber);
+                        ctrl.$render();
+                    }
+
+                    return inputNumber;
+                }
+
+                ctrl.$parsers.push(validation);
+            }
+        };
+    };
+
 
 
 angular.module(MODULE_NAME, [])
     .directive('routerLink', ['$route', routerLink])
     .directive('templateSelect2', [templateSelect2])
+    .directive('numbersOnly', [numbersOnly])
     .directive('myMaxlength', [myMaxlength]);
 
 export default MODULE_NAME;
