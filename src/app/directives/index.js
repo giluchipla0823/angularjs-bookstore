@@ -4,6 +4,31 @@ import { select2Functions } from '../../public/assets/js/jsSelect2Functions';
 
 const MODULE_NAME = 'app.directives';
 
+const myMaxlength = function() {
+  return {
+    require: 'ngModel',
+    link: function (scope, element, attrs, ngModelCtrl) {
+      var maxlength = Number(attrs.myMaxlength);
+
+      function fromUser(text) {
+          if(!text){
+              text = '';
+          }
+
+          if (text.length > maxlength) {
+            var transformedInput = text.substring(0, maxlength);
+            ngModelCtrl.$setViewValue(transformedInput);
+            ngModelCtrl.$render();
+            return transformedInput;
+          } 
+          return text;
+      }
+
+      ngModelCtrl.$parsers.push(fromUser);
+    }
+  }; 
+};
+
 // Directiva "routerLink" para marcar menu seleccionado
 const routerLink = ($route) => {
     return {
@@ -104,10 +129,35 @@ const templateSelect2 = () => {
     };
 };
 
+const numbersOnly = () => {
+        return {
+            require: 'ngModel',
+            restrict: 'A',
+            link: function (scope, element, attrs, ctrl) {
+                function validation(input) {
+                    if (!input) return '';
+
+                    var inputNumber = input.toString().replace(/[^0-9]/g, '');
+
+                    if (inputNumber !== input) {
+                        ctrl.$setViewValue(inputNumber);
+                        ctrl.$render();
+                    }
+
+                    return inputNumber;
+                }
+
+                ctrl.$parsers.push(validation);
+            }
+        };
+    };
+
 
 
 angular.module(MODULE_NAME, [])
     .directive('routerLink', ['$route', routerLink])
-    .directive('templateSelect2', [templateSelect2]);
+    .directive('templateSelect2', [templateSelect2])
+    .directive('numbersOnly', [numbersOnly])
+    .directive('myMaxlength', [myMaxlength]);
 
 export default MODULE_NAME;

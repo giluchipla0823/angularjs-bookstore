@@ -34,7 +34,7 @@ import '../../../public/assets/css/select2/ui-select2.css';
 import '../../../public/assets/js/libs/select2/ui-select2.js';
 
 import BooksController from './books.controller.js';
-import BooksModalController from './books.modal.controller.js';
+import BooksFormController from './books-form.controller.js';
 import BooksTemplate from './books.template.html';
 import BooksService from '../../services/books.service';
 import AuthorsService from '../../services/authors.service';
@@ -60,7 +60,7 @@ angular.module(MODULE_NAME, [
 		'ui.select'
 	])
 .controller('BooksController', BooksController)
-.controller('BooksModalController', BooksModalController)
+.controller('BooksFormController', BooksFormController)
 .service('BooksService', BooksService)
 .service('AuthorsService', AuthorsService)
 .service('PublishersService', PublishersService)

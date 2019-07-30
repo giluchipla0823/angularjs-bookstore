@@ -1,0 +1,159 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="$ctrl.cancel()">&times;</button>
+    <h3 class="modal-title">
+        {{ $ctrl.form.data.id ? 'Editar libro' : 'Crear libro' }}
+    </h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <form id="frm_books" name="frm_books" novalidate="novalidate" ng-submit="$ctrl.save();">
+        <div class="form-group">
+            <label for="title">Título</label>
+            <input type="text" 
+                    class="form-control"
+                    id="title"
+                    name="title"
+                    ng-model="$ctrl.form.data.title"
+                    ng-required="true" />
+        </div>
+        <div class="form-group">
+            <label for="description">Descripción</label>
+            <textarea class="form-control"
+                    id="description"
+                    name="description"
+                    style="height: 100px; resize:none;"
+                    ng-model="$ctrl.form.data.description"
+                    ng-required="true"></textarea>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="quantity">Cantidad</label>
+                    <input type="number"
+                           class="form-control"
+                           id="quantity"
+                           name="quantity"
+                           ng-model="$ctrl.form.data.quantity"
+                           maxlength="5"
+                           min="0"
+                           numbers-only
+                           my-maxlength="5"
+                           ng-required="true"
+                           ng-pattern="/^[0-9]*$/"
+                           autocomplete="off"
+                           ng-pattern-err-type="number" />
+                </div>
+                
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="price">Precio</label>
+                    <input type="text"
+                            class="form-control"
+                            id="price"
+                            name="price"
+                            ng-model="$ctrl.form.data.price"
+                            ng-pattern="/^[0-9]+(\.[0-9][0-9])?$/i"
+                            ng-pattern-err-type="price"
+                            ng-required="true" />
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group" 
+                ng-class="{'has-error': !frm_books.author.$valid && !frm_books.author.$pristine}">
+            <label for="author_id">Autor</label>
+            <template-select2
+                items="$ctrl.authors.data"
+                placeholder="Seleccionar"
+                control="$ctrl.author"
+                theme="select2"
+                element-id="author"
+                search="true"
+                on-change="$ctrl.evtChangeAuthor($ctrl.author.selected)"
+                disabled="$ctrl.authors.loading"
+                allow-clear="true"
+                is-required="true"
+            ></template-select2>
+
+            <div ng-messages="frm_books.author.$error"
+                    ng-if="!frm_books.author.$valid
+                    && !frm_books.author.$pristine"
+                    class="help-block error-msg help-block-select2">
+                <span ng-message="required">
+                    Este campo es requerido
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group"
+                ng-class="{'has-error' : !frm_books.publisher.$valid && !frm_books.publisher.$pristine}">
+            <label for="publisher_id">Publicador</label>
+            <template-select2
+                items="$ctrl.publishers.data"
+                placeholder="Seleccionar"
+                control="$ctrl.publisher"
+                theme="select2"
+                element-id="publisher"
+                search="true"
+                on-change="$ctrl.evtChangePublisher($ctrl.publisher.selected)"
+                disabled="$ctrl.publishers.loading"
+                allow-clear="true"
+                is-required="true"
+            ></template-select2>
+
+            <div ng-messages="frm_books.publisher.$error"
+                    ng-if="!frm_books.publisher.$valid
+                    && !frm_books.publisher.$pristine"
+                    class="help-block error-msg help-block-select2">
+                <span ng-message="required">
+                    Este campo es requerido
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group no-jcs-autovalidate"
+                ng-class="{'has-error' : !frm_books.genres.$valid && (!frm_books.genres.$pristine || frm_books.$submitted)}">
+            <label for="genres">Géneros</label>
+            <template-select2
+                items="$ctrl.genres.data"
+                placeholder="Seleccionar"
+                control="$ctrl.genres"
+                theme="bootstrap"
+                element-id="genres"
+                search="true"
+                disabled="$ctrl.genres.loading"
+                on-change="$ctrl.evtChangeGenres($ctrl.genres.selected)"
+                allow-clear="true"
+                is-required="true"
+                is-multiple="true"
+            ></template-select2>
+
+            <div ng-messages="frm_books.genres.$error"
+                    ng-if="!frm_books.genres.$valid
+                    && (!frm_books.genres.$pristine || frm_books.$submitted)"
+                    class="help-block error-msg help-block">
+                <span ng-message="required">
+                    Este campo es requerido
+                </span>
+            </div>
+        </div>
+
+        <button type="submit" 
+                id="btn-submit-book"
+                class="btn btn-primary hide">
+            submit
+        </button>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary ladda-button"
+            data-style="expand-right"
+            ladda="$ctrl.form.loading" 
+            type="button"
+            ng-click="frm_books.$submitted = true"
+            onClick="angular.element('#btn-submit-book').submit()">
+        <span class="ladda-label">Guardar</span>
+    </button>
+    <button class="btn btn-default" type="button" ng-click="$ctrl.cancel()">Cancelar</button>
+</div>
