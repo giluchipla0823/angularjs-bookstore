@@ -99,7 +99,6 @@ class BooksController{
                                 .withOption('ajax', {
                                     // Either you specify the AjaxDataProp here
                                     // dataSrc: 'data',
-                                    // url: './assets/data/persons.json',
                                     url: 'http://127.0.0.1:8000/api/books',
                                     type: 'GET',
                                     beforeSend: function(){
@@ -145,7 +144,7 @@ class BooksController{
                                 })
                                 .withOption('serverSide', true)
                                 .withOption('processing', false)
-                                .withDOM("<'hide'lt>tr<'hide'ip>")
+                                .withDOM(vm.fnDatatables.renderDOM)
                                 .withPaginationType('full_numbers')
                                 .withOption('createdRow', vm.fnDatatables.createdRow)
                                 .withOption('responsive', {
@@ -162,16 +161,16 @@ class BooksController{
                 .withOption('class', 'dt-body-center'),
             vm.dtColumnBuilder
                 .newColumn('title')
-                .withTitle('Title')
+                .withTitle('Título')
                 .withOption('name', 'title'),
             vm.dtColumnBuilder
                 .newColumn('description')
-                .withTitle('Description')
+                .withTitle('Descripción')
                 .withOption('name', 'description')
                 .notSortable(),
             vm.dtColumnBuilder
                 .newColumn('author')
-                .withTitle('Author')
+                .withTitle('Autor')
                 .withOption('name', 'author.name')
                 .renderWith(function(data, type, full, meta) {
                      return data.name;

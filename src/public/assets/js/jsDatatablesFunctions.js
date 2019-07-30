@@ -140,9 +140,14 @@ export const groupFnDatatablesWithAngular = (ngModel, $scope, $compile) =>{
           const data = $(a_ulRowDT[i]).data();
           const id = data.id;
           
-          angular.element('.tr-'+ id +'').children().eq(0).trigger('click');
+          angular.element('.tr-'+ id +'')
+                 .children()
+                 .eq(0)
+                 .trigger('click');
         }
     };
+
+    const renderDOM = `<'hide'lt><'row'<'col-sm-12'tr>><'hide'ip>`;
 
     return {
         initComplete: initComplete,
@@ -150,7 +155,8 @@ export const groupFnDatatablesWithAngular = (ngModel, $scope, $compile) =>{
         createdRow: createdRow,
         renderResponsive: renderResponsive,
         loadEventsDatatables: loadEventsDatatables,
-        reloadData: reloadData
+        reloadData: reloadData,
+        renderDOM: renderDOM
     };
 };
 

@@ -33,8 +33,6 @@
     </form>
 </div>
 
-<pre>{{ vm.form.data | json }}</pre>
-
 <div class="panel panel-default panel-datatables">
     <div class="panel-heading clearfix">
         <div class="pull-left" style="margin-top: 10px;">
@@ -54,9 +52,9 @@
     </div>
     
     <div id="loading-dt-books" 
-          class="bs-loading-container" 
-          bs-loading-overlay
-          bs-loading-overlay-reference-id="loading-dt-books">  
+         class="panel-body bs-loading-container" 
+         bs-loading-overlay
+         bs-loading-overlay-reference-id="loading-dt-books">  
         <table datatable="" 
                dt-instance="vm.nested.dtInstance" 
                dt-options="vm.nested.dtOptions"

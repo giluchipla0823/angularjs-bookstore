@@ -57,7 +57,6 @@ class AuthorsController{
                                 .withOption('ajax', {
                                     // Either you specify the AjaxDataProp here
                                     // dataSrc: 'data',
-                                    // url: './assets/data/persons.json',
                                     url: 'http://127.0.0.1:8000/api/authors',
                                     type: 'GET',
                                     beforeSend: function(){
@@ -102,7 +101,7 @@ class AuthorsController{
                                 })
                                 .withOption('serverSide', true)
                                 .withOption('processing', false)
-                                .withDOM("<'hide'lt>tr<'hide'ip>")
+                                .withDOM(vm.fnDatatables.renderDOM)
                                 .withPaginationType('full_numbers')
                                 .withOption('createdRow', vm.fnDatatables.createdRow)
                                 .withOption('responsive', {
