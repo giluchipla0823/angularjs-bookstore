@@ -1,6 +1,6 @@
 {
   "API_URL": {
-    "production": "http://127.0.0.1:8000/api/",
-    "development": "http://127.0.0.1:8000/api/"
+    "production": "http://127.0.0.1:8000/api/v1/",
+    "development": "http://127.0.0.1:8000/api/v1/"
   }
 }

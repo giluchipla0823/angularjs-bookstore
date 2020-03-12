@@ -1,9 +1,9 @@
 const path = require("path");
 const webpack = require("webpack");
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-const config = require('./config.json')
+const config = require('./config.json');
 const environment = process.env.NODE_ENV === 'production' ? 'production' : 'development';
 
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
@@ -35,6 +35,12 @@ module.exports = {
       { mangle: false }
     }),
   ],
+  /* resolve: {
+      alias: {
+          "bower_components": path.resolve(__dirname, "bower_components"),
+          // "paper": path.resolve(__dirname, "path/to/bower/file")
+      }
+  }, */
   devServer: {
     contentBase:  path.join(__dirname, 'src/public'),
     historyApiFallback: true
@@ -44,6 +50,7 @@ module.exports = {
       {
         test: /\.js$/,
         use: "babel-loader",
+        // exclude: ["/bower_components/", "/node_modules/"]
         exclude: /node_modules/
       },
       {

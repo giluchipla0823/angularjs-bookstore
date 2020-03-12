@@ -1,7 +1,7 @@
 import { loadingOverlay } from '../../../public/assets/js/jsCommonFunctions';
 import { evalResponse } from '../../../public/assets/js/jsResponseFunctions';
-import { groupFnDatatablesWithAngular } from '../../../public/assets/js/jsDatatablesFunctions';
 import AuthorsFormTemplate from './authors-form.template.html';
+import Datatables from '../../utils/Datatables';
 
 class AuthorsController{
     constructor($scope, SweetAlert, $uibModal, AuthorsService, DTDefaultOptions, DTOptionsBuilder, DTColumnBuilder, $compile, bsLoadingOverlayService){
@@ -14,11 +14,14 @@ class AuthorsController{
         this.dtColumnBuilder = DTColumnBuilder;
         this.uibModal = $uibModal;
         this.authorsService = AuthorsService;
+        this.datatablesHelper = new Datatables('nested', $scope, $compile);
+
+        console.log('1. constructor');
+    }
+
+    $onInit() {
         this.title = 'Authors';
-        this.fnDatatables = groupFnDatatablesWithAngular('nested', this.scope, this.compile);
-
-        this.loadDatatables();
-
+    
         this.events = {
             'editAuthor': (author) => {
                 this.openModal(author);
@@ -37,96 +40,80 @@ class AuthorsController{
         this.form = {
             data: {}
         };
+
+        this.loadDatatables();
     }
 
     loadDatatables(){
         let vm = this;
-
-        vm.nested = {
+        
+        this.nested = {
             dtInstance: {},
             items: {}
         };
 
-        vm.dtDefaultOptions.setOption('order', [[0, 'desc']]);
+        this.dtDefaultOptions.setOption('order', [[0, 'desc']]);
 
-        vm.nested.dtOptions = vm.dtOptionsBuilder
+        this.nested.dtOptions = this.dtOptionsBuilder
                                 .newOptions()
-                                .withOption('initComplete', vm.fnDatatables.initComplete)
+                                .withOption('initComplete', this.datatablesHelper.initComplete)
                                 .withPaginationType('full_numbers')
                                 .withDataProp('data')
                                 .withOption('ajax', {
-                                    // Either you specify the AjaxDataProp here
-                                    // dataSrc: 'data',
-                                    url: 'http://127.0.0.1:8000/api/authors',
+                                    url:  API_URL + 'authors',
                                     type: 'GET',
-                                    beforeSend: function(){
-                                        loadingOverlay.show(vm.loadingOverlayService, 'loading-dt-authors');
+                                    beforeSend: () => {
+                                        loadingOverlay.show(this.loadingOverlayService, 'loading-dt-authors');
                                     },
-                                    data: function(d) {
+                                    data: (d) => {
                                         d.listFormat = 'datatables';
 
-                                        for(const i in vm.form.data){
-                                            const value = vm.form.data[i];
+                                        for(const i in this.form.data){
+                                            const value = this.form.data[i];
 
                                             if(value){
                                                 d[i] = value;
                                             }
                                         }
                                     },
-                                    'dataFilter': function(response){
-                                        var json = JSON.parse(response);                                        
-                                        var data = json.data;
-
-                                        return JSON.stringify({
-                                            "draw": data.draw,
-                                            "recordsTotal": data.recordsTotal,    
-                                            "recordsFiltered": data.recordsFiltered,
-                                            'data': data.items
-                                        });
-                                    },
-                                    "dataSrc": function(data){
-                                        if(data.data === undefined){
-                                            return [];
-                                        }
-
-                                        return data.data;
-                                    },
-                                    complete: function(response){
+                                    'dataFilter': this.datatablesHelper.getFilterData,
+                                    "dataSrc": this.datatablesHelper.getSourceData,
+                                    complete: (response) => {
                                         var json = response.responseJSON;
 
                                         evalResponse(json);
 
-                                        loadingOverlay.hide(vm.loadingOverlayService, 'loading-dt-authors');
+                                        loadingOverlay.hide(this.loadingOverlayService, 'loading-dt-authors');
                                     }
                                 })
                                 .withOption('serverSide', true)
                                 .withOption('processing', false)
-                                .withDOM(vm.fnDatatables.renderDOM)
+                                .withDOM(this.datatablesHelper.renderDOM)
                                 .withPaginationType('full_numbers')
-                                .withOption('createdRow', vm.fnDatatables.createdRow)
+                                .withOption('createdRow', this.datatablesHelper.createdRow)
                                 .withOption('responsive', {
                                     details: {
-                                        renderer: vm.fnDatatables.renderResponsive
+                                        renderer: this.datatablesHelper.renderResponsive
                                     }    
                                 })
                                 .withBootstrap();
-        vm.nested.dtColumns = [
-            vm.dtColumnBuilder
+        this.nested.dtColumns = [
+            this.dtColumnBuilder
                 .newColumn('id')
                 .withTitle('ID')
                 .withOption('name', 'id')
                 .withOption('class', 'dt-body-center'),
-            vm.dtColumnBuilder
+            this.dtColumnBuilder
                 .newColumn('name')
                 .withTitle('Nombres')
                 .withOption('name', 'name'),
-            vm.dtColumnBuilder
+            this.dtColumnBuilder
                 .newColumn(null)
                 .withTitle('Actions')
                 .withOption('width', '20%')
                 .notSortable()
-                .renderWith(function(data, type, full, meta) {
-                    vm.nested.items[data.id] = data;
+                .renderWith((data, type, full, meta) => {
+                    this.nested.items[data.id] = data;
 
                     return `<div class="dt-actions">
                                 <button class="btn btn-default" ng-click="vm.events.editAuthor(vm.nested.items[${ data.id }]);">
@@ -139,7 +126,7 @@ class AuthorsController{
                 })
         ];
 
-        vm.nested.reloadData = vm.fnDatatables.reloadData;
+        this.nested.reloadData = this.datatablesHelper.reloadData;
     }
 
     deleteAuthor(id) {

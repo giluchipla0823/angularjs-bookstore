@@ -1,5 +1,9 @@
 <h1>{{ vm.title }}</h1>
 <hr />
+
+<div class="form-group">
+    <js-file-input ng-model="fileinput" data-input-attrs='{"name": "fileInput"}' data-preview-attrs='{"style": "width: 200px; height: auto;"}'></js-file-input>
+</div>
 <div class="form-group">
     <form id="frm_search_books" name="frm_search_books"  ng-submit="vm.nested.reloadData(true, {})">
         <div class="form-group">

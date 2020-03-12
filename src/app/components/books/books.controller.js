@@ -100,7 +100,7 @@ class BooksController{
                                 .withOption('ajax', {
                                     // Either you specify the AjaxDataProp here
                                     // dataSrc: 'data',
-                                    url: 'http://127.0.0.1:8000/api/books',
+                                    url: 'http://127.0.0.1:8000/api/v1/books',
                                     type: 'GET',
                                     beforeSend: function(){
                                         loadingOverlay.show(vm.loadingOverlayService, 'loading-dt-books');
@@ -165,9 +165,15 @@ class BooksController{
                 .withTitle('Título')
                 .withOption('name', 'title'),
             vm.dtColumnBuilder
+                .newColumn('summary')
+                .withTitle('Resumen')
+                .withOption('name', 'summary')
+                .notSortable(),
+            vm.dtColumnBuilder
                 .newColumn('description')
                 .withTitle('Descripción')
                 .withOption('name', 'description')
+                .notVisible()
                 .notSortable(),
             vm.dtColumnBuilder
                 .newColumn('author')

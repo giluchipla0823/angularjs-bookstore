@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="bower_components/jasny-bootstrap/dist/css/jasny-bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body ng-app="jasny-bootstrap-angular" ng-controller="DemoController">
+
+<js-file-input ng-model="file"
+               file-input-clear="inputCleared()"
+               file-input-change="inputChanged()"
+               file-input-reset="inputReset()"
+               data-input-attrs='{"name": "fileInput"}'
+               data-preview-attrs='{"style": "width: 200px; height: 150px;"}'></js-file-input>
+
+<hr>
+<p>
+    <button class="btn btn-primary" ng-click="showInput()">Show Input</button>
+    <button class="btn btn-danger" ng-click="removeFile()">Remove File</button>
+</p>
+
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="bower_components/jasny-bootstrap/dist/js/jasny-bootstrap.min.js"></script>
+<script src="bower_components/angular/angular.min.js"></script>
+<script src="dist/jasny-bootstrap-angular.min.js"></script>
+<script src="DemoController.js"></script>
+</body>
+</html>

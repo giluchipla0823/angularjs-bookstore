@@ -34,6 +34,7 @@
     "file-loader": "^4.1.0",
     "font-awesome": "^4.7.0",
     "html-webpack-plugin": "2.30.1",
+    "jasny-bootstrap": "4.0.0",
     "jquery": "^2.2.4",
     "ladda": "^2.0.1",
     "ladda-angular": "^1.0.1",

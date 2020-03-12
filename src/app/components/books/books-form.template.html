@@ -15,12 +15,23 @@
                     ng-model="$ctrl.form.data.title"
                     ng-required="true" />
         </div>
+
+        <div class="form-group">
+            <label for="summary">Descripción</label>
+            <textarea class="form-control"
+                    id="summary"
+                    name="summary"
+                    style="height: 100px; resize:none;"
+                    ng-model="$ctrl.form.data.summary"
+                    ng-required="true"></textarea>
+        </div>
+
         <div class="form-group">
             <label for="description">Descripción</label>
             <textarea class="form-control"
                     id="description"
                     name="description"
-                    style="height: 100px; resize:none;"
+                    style="height: 150px; resize:none;"
                     ng-model="$ctrl.form.data.description"
                     ng-required="true"></textarea>
         </div>

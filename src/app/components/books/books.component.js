@@ -33,6 +33,11 @@ import '../../../public/assets/css/select2/select2.css';
 import '../../../public/assets/css/select2/ui-select2.css';
 import '../../../public/assets/js/libs/select2/ui-select2.js';
 
+// Jasny-bootstrap
+import 'jasny-bootstrap/dist/css/jasny-bootstrap.min.css';
+import 'jasny-bootstrap/dist/js/jasny-bootstrap.min.js';
+import '../../../public/assets/js/libs/jasny-bootstrap-angular/dist/jasny-bootstrap-angular.min.js';
+
 import BooksController from './books.controller.js';
 import BooksFormController from './books-form.controller.js';
 import BooksTemplate from './books.template.html';
@@ -57,7 +62,8 @@ angular.module(MODULE_NAME, [
 		ngMessages, 
 		'jcs-autoValidate', 
 		angularLadda, 
-		'ui.select'
+		'ui.select',
+		'jasny-bootstrap-angular'
 	])
 .controller('BooksController', BooksController)
 .controller('BooksFormController', BooksFormController)
