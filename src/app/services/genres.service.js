@@ -4,7 +4,7 @@ class GenresService{
     }
 
     getGenres(){
-        return this.restService.buildRequest(
+        return this.restService.makeRequest(
             'GET',
             'genres'
         );
@@ -13,7 +13,7 @@ class GenresService{
     createGenre(genre){
         const id = genre.id;
 
-        return this.restService.buildRequest(
+        return this.restService.makeRequest(
             'POST',
             'genres',
             genre
@@ -23,7 +23,7 @@ class GenresService{
     updateGenre(genre){
         const id = genre.id;
 
-        return this.restService.buildRequest(
+        return this.restService.makeRequest(
             'PUT',
             `genres/${id}`,
             genre
@@ -31,7 +31,7 @@ class GenresService{
     }
 
     deleteGenre(id){
-        return this.restService.buildRequest(
+        return this.restService.makeRequest(
             'DELETE',
             `genres/${id}`
         );

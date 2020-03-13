@@ -4,7 +4,7 @@ class BooksService{
     }
 
     getBooks(){
-        return this.restService.buildRequest(
+        return this.restService.makeRequest(
             'GET',
             'books'
         );
@@ -13,7 +13,7 @@ class BooksService{
     createBook(book){
         const id = book.id;
 
-        return this.restService.buildRequest(
+        return this.restService.makeRequest(
             'POST',
             'books',
             book
@@ -23,7 +23,7 @@ class BooksService{
     updateBook(book){
         const id = book.id;
 
-        return this.restService.buildRequest(
+        return this.restService.makeRequest(
             'PUT',
             `books/${id}`,
             book
@@ -31,7 +31,7 @@ class BooksService{
     }
 
     deleteBook(id){
-        return this.restService.buildRequest(
+        return this.restService.makeRequest(
             'DELETE',
             `books/${id}`
         );

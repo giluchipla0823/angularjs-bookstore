@@ -1,5 +1,6 @@
 import { evalResponse, errorResponse }  from '../../../public/assets/js/jsResponseFunctions';
 import { extractColumn } from '../../../public/assets/js/jsArrayFunctions';
+import { StatusCodes } from '../../utils/StatusCodes';
 
 class BooksFormController{
 	constructor($uibModalInstance, Response, BooksService, SweetAlert, AuthorsService, PublishersService, GenresService){
@@ -10,7 +11,9 @@ class BooksFormController{
 		this.genresService = GenresService;
 		this.uibModalInstance = $uibModalInstance;
 		this.book = Response;
+	}
 
+	$onInit() {
 		this.form = {
 			loading: false,
 			data: {}
@@ -161,17 +164,17 @@ class BooksFormController{
     }
 
     getGenres(){
-    	const genresIdsSelected =  extractColumn(this.book.genres || [], 'id');
+		const genresIdsSelected =  extractColumn(this.book.genres || [], 'id');
 		this.genres.loading = true;
 
         this.genresService.getGenres()
             .then( response => {
                 if(evalResponse(response)){
                     const data = response.data;
-                    const genres = data.map( item => {
-                        item.text = item.id +  ' - ' + item.name;
+                    const genres = data.map( item => {						
+                        item.text = item.name;
 
-						if(genresIdsSelected.indexOf(item.id) >= 0){
+						if (genresIdsSelected.includes((item.id).toString())) {
 							this.genres.selected.push(item);
 						}
 
@@ -219,7 +222,7 @@ class BooksFormController{
 				const status = error.status;
 				const message = data.message;
 
-				if(status === 422){
+				if(status === StatusCodes.HTTP_UNPROCESSABLE_ENTITY){
 					const errors = data.errors;
 					const template = errorResponse.validationForm(message, errors);
 
@@ -242,10 +245,11 @@ class BooksFormController{
 				this.form.loading = false;
 				
 				const data = error.data;
+				const status = error.status;
 				const message = data.message;
-				const errors = data.errors;
 
-				if(errors){
+				if(status === StatusCodes.HTTP_UNPROCESSABLE_ENTITY){
+					const errors = data.errors;
 					const template = errorResponse.validationForm(message, errors);
 
 					this.sweetAlert.alert(template, {html: true});

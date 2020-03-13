@@ -15,8 +15,6 @@ class AuthorsController{
         this.uibModal = $uibModal;
         this.authorsService = AuthorsService;
         this.datatablesHelper = new Datatables('nested', $scope, $compile);
-
-        console.log('1. constructor');
     }
 
     $onInit() {
@@ -45,8 +43,6 @@ class AuthorsController{
     }
 
     loadDatatables(){
-        let vm = this;
-        
         this.nested = {
             dtInstance: {},
             items: {}
@@ -113,7 +109,8 @@ class AuthorsController{
                 .withOption('width', '20%')
                 .notSortable()
                 .renderWith((data, type, full, meta) => {
-                    this.nested.items[data.id] = data;
+                    let vm = this;
+                    vm.nested.items[data.id] = data;
 
                     return `<div class="dt-actions">
                                 <button class="btn btn-default" ng-click="vm.events.editAuthor(vm.nested.items[${ data.id }]);">

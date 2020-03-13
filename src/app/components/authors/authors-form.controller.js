@@ -6,7 +6,9 @@ class AuthorsFormController{
 		this.authorsService = AuthorsService;
 		this.uibModalInstance = $uibModalInstance;
 		this.author = Response;
+	}
 
+	$onInit() {
 		this.form = {
 			loading: false,
 			data: this.author

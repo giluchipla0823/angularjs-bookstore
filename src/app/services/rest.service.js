@@ -4,7 +4,7 @@ class RestService{
         this.q = $q;
     }
 
-    buildRequest(method, url, data, extra) {
+    makeRequest(method, url, data, extra) {
         const deferred = this.q.defer();
 
         const request = {

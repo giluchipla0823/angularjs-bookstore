@@ -4,7 +4,7 @@ class AuthorsService{
     }
 
     getAuthors(){
-        return this.restService.buildRequest(
+        return this.restService.makeRequest(
             'GET',
             'authors'
         );
@@ -13,7 +13,7 @@ class AuthorsService{
     createAuthor(author){
         const id = author.id;
 
-        return this.restService.buildRequest(
+        return this.restService.makeRequest(
             'POST',
             'authors',
             author
@@ -23,7 +23,7 @@ class AuthorsService{
     updateAuthor(author){
         const id = author.id;
 
-        return this.restService.buildRequest(
+        return this.restService.makeRequest(
             'PUT',
             `authors/${id}`,
             author
@@ -31,7 +31,7 @@ class AuthorsService{
     }
 
     deleteAuthor(id){
-        return this.restService.buildRequest(
+        return this.restService.makeRequest(
             'DELETE',
             `authors/${id}`
         );

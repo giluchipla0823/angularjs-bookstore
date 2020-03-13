@@ -1,8 +1,8 @@
 import { loadingOverlay } from '../../../public/assets/js/jsCommonFunctions';
 import { evalResponse } from '../../../public/assets/js/jsResponseFunctions';
-import { groupFnDatatablesWithAngular } from '../../../public/assets/js/jsDatatablesFunctions';
 import { extractColumn } from '../../../public/assets/js/jsArrayFunctions';
 import BooksFormTemplate from './books-form.template.html';
+import Datatables from '../../utils/Datatables';
 
 class BooksController{
     constructor($scope, SweetAlert, $uibModal, BooksService, DTDefaultOptions, DTOptionsBuilder, DTColumnBuilder, $compile, bsLoadingOverlayService, AuthorsService){
@@ -16,8 +16,12 @@ class BooksController{
         this.uibModal = $uibModal;
         this.booksService = BooksService;
         this.authorsService = AuthorsService;
+        this.datatablesHelper = new Datatables('nested', $scope, $compile);
+    }
+
+    $onInit() {
         this.title = 'Books';
-        this.fnDatatables = groupFnDatatablesWithAngular('nested', this.scope, this.compile);
+
         this.loadDatatables();
 
         this.events = {
@@ -83,111 +87,91 @@ class BooksController{
     }
 
     loadDatatables(){
-        let vm = this;
-
-        vm.nested = {
+        this.nested = {
             dtInstance: {},
             items: {}
         };
 
-        vm.dtDefaultOptions.setOption('order', [[0, 'desc']]);
+        this.dtDefaultOptions.setOption('order', [[0, 'desc']]);
 
-        vm.nested.dtOptions = vm.dtOptionsBuilder
+        this.nested.dtOptions = this.dtOptionsBuilder
                                 .newOptions()
-                                .withOption('initComplete', vm.fnDatatables.initComplete)
+                                .withOption('initComplete', this.datatablesHelper.initComplete)
                                 .withPaginationType('full_numbers')
                                 .withDataProp('data')
                                 .withOption('ajax', {
-                                    // Either you specify the AjaxDataProp here
-                                    // dataSrc: 'data',
-                                    url: 'http://127.0.0.1:8000/api/v1/books',
+                                    url:  API_URL + 'books',
                                     type: 'GET',
-                                    beforeSend: function(){
-                                        loadingOverlay.show(vm.loadingOverlayService, 'loading-dt-books');
+                                    beforeSend: () => {
+                                        loadingOverlay.show(this.loadingOverlayService, 'loading-dt-books');
                                     },
-                                    data: function(d) {
+                                    data: (d) => {
                                         d.listFormat = 'datatables';
                                         d.includes = 'author,genres';
 
-                                        for(const i in vm.form.data){
-                                            const value = vm.form.data[i];
+                                        for(const i in this.form.data){
+                                            const value = this.form.data[i];
 
                                             if(value){
                                                 d[i] = value;
                                             }
                                         }
                                     },
-                                    'dataFilter': function(response){
-                                        var json = JSON.parse(response);                                        
-                                        var data = json.data;
-
-                                        return JSON.stringify({
-                                            "draw": data.draw,
-                                            "recordsTotal": data.recordsTotal,    
-                                            "recordsFiltered": data.recordsFiltered,
-                                            'data': data.items
-                                        });
-                                    },
-                                    "dataSrc": function(data){
-                                        if(data.data === undefined){
-                                            return [];
-                                        }
-
-                                        return data.data;
-                                    },
-                                    complete: function(response){
+                                    'dataFilter': this.datatablesHelper.getFilterData,
+                                    "dataSrc": this.datatablesHelper.getSourceData,
+                                    complete: (response) => {
                                         var json = response.responseJSON;
 
                                         evalResponse(json);
 
-                                        loadingOverlay.hide(vm.loadingOverlayService, 'loading-dt-books');
+                                        loadingOverlay.hide(this.loadingOverlayService, 'loading-dt-books');
                                     }
                                 })
                                 .withOption('serverSide', true)
                                 .withOption('processing', false)
-                                .withDOM(vm.fnDatatables.renderDOM)
+                                .withDOM(this.datatablesHelper.renderDOM)
                                 .withPaginationType('full_numbers')
-                                .withOption('createdRow', vm.fnDatatables.createdRow)
+                                .withOption('createdRow', this.datatablesHelper.createdRow)
                                 .withOption('responsive', {
                                     details: {
-                                        renderer: vm.fnDatatables.renderResponsive
+                                        renderer: this.datatablesHelper.renderResponsive
                                     }    
                                 })
                                 .withBootstrap();
-        vm.nested.dtColumns = [
-            vm.dtColumnBuilder
+        this.nested.dtColumns = [
+            this.dtColumnBuilder
                 .newColumn('id')
                 .withTitle('ID')
                 .withOption('name', 'id')
                 .withOption('class', 'dt-body-center'),
-            vm.dtColumnBuilder
+            this.dtColumnBuilder
                 .newColumn('title')
                 .withTitle('Título')
                 .withOption('name', 'title'),
-            vm.dtColumnBuilder
+            this.dtColumnBuilder
                 .newColumn('summary')
                 .withTitle('Resumen')
                 .withOption('name', 'summary')
                 .notSortable(),
-            vm.dtColumnBuilder
+            this.dtColumnBuilder
                 .newColumn('description')
                 .withTitle('Descripción')
                 .withOption('name', 'description')
                 .notVisible()
                 .notSortable(),
-            vm.dtColumnBuilder
+            this.dtColumnBuilder
                 .newColumn('author')
                 .withTitle('Autor')
                 .withOption('name', 'author.name')
-                .renderWith(function(data, type, full, meta) {
+                .renderWith((data, type, full, meta) => {
                      return data.name;
             }),
-            vm.dtColumnBuilder
+            this.dtColumnBuilder
                 .newColumn('genres')
                 .withTitle('Géneros')
                 .withOption('name', 'genres')
                 .notSortable()
-                .renderWith(function(data, type, full, meta) {
+                .renderWith((data, type, full, meta) => {
                      const items = extractColumn(data, 'name');
 
                      let html = ``;
@@ -198,12 +182,13 @@ class BooksController{
 
                      return html;                        
             }),
-            vm.dtColumnBuilder
+            this.dtColumnBuilder
                 .newColumn(null)
                 .withTitle('Actions')
                 .withOption('width', '20%')
                 .notSortable()
-                .renderWith(function(data, type, full, meta) {
+                .renderWith((data, type, full, meta) => {
+                    let vm = this;
                     vm.nested.items[data.id] = data;
 
                     return `<div class="dt-actions">
@@ -217,7 +202,7 @@ class BooksController{
                 })
         ];
 
-        vm.nested.reloadData = vm.fnDatatables.reloadData;
+        this.nested.reloadData = this.datatablesHelper.reloadData;
     }
 
     deleteBook(id) {

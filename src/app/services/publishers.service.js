@@ -4,7 +4,7 @@ class PublishersService{
     }
 
     getPublishers(){
-        return this.restService.buildRequest(
+        return this.restService.makeRequest(
             'GET',
             'publishers'
         );
