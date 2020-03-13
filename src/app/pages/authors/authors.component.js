@@ -28,29 +28,16 @@ import '../../../public/assets/css/sweetalert/sweetalert.css';
 // Validation
 import '../../../public/assets/js/libs/auto-validate/jcs-auto-validate.js';
 
-// Select2 
-import '../../../public/assets/css/select2/select2.css';
-import '../../../public/assets/css/select2/ui-select2.css';
-import '../../../public/assets/js/libs/select2/ui-select2.js';
-
-// Jasny-bootstrap
-import 'jasny-bootstrap/dist/css/jasny-bootstrap.min.css';
-import 'jasny-bootstrap/dist/js/jasny-bootstrap.min.js';
-import '../../../public/assets/js/libs/jasny-bootstrap-angular/dist/jasny-bootstrap-angular.min.js';
-
-import BooksController from './books.controller.js';
-import BooksFormController from './books-form.controller.js';
-import BooksTemplate from './books.template.html';
-import BooksService from '../../services/books.service';
+import AuthorsController from './authors.controller';
+import AuthorsFormController from './authors-form/authors-form.controller';
+import AuthorsTemplate from './authors.template.html';
 import AuthorsService from '../../services/authors.service';
-import PublishersService from '../../services/publishers.service';
-import GenresService from '../../services/genres.service';
 
-const MODULE_NAME = 'books.component';
+const MODULE_NAME = 'authors.component';
 
-const BooksComponent = {
-    template: BooksTemplate,
-    controller: BooksController,
+const AuthorsComponent = {
+    template: AuthorsTemplate,
+    controller: AuthorsController,
     controllerAs: 'vm'
 };
 
@@ -61,16 +48,11 @@ angular.module(MODULE_NAME, [
 		'ng-sweet-alert', 
 		ngMessages, 
 		'jcs-autoValidate', 
-		angularLadda, 
-		'ui.select',
-		'jasny-bootstrap-angular'
+		angularLadda
 	])
-.controller('BooksController', BooksController)
-.controller('BooksFormController', BooksFormController)
-.service('BooksService', BooksService)
-.service('AuthorsService', AuthorsService)
-.service('PublishersService', PublishersService)
-.service('GenresService', GenresService)
-.component('books', BooksComponent);
+    .controller('AuthorsController', AuthorsController)
+    .controller('AuthorsFormController', AuthorsFormController)
+    .service('AuthorsService', AuthorsService)
+    .component('authors', AuthorsComponent);
 
 export default MODULE_NAME;

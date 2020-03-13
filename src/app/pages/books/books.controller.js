@@ -1,7 +1,7 @@
-import { loadingOverlay } from '../../../public/assets/js/jsCommonFunctions';
-import { evalResponse } from '../../../public/assets/js/jsResponseFunctions';
-import { extractColumn } from '../../../public/assets/js/jsArrayFunctions';
-import BooksFormTemplate from './books-form.template.html';
+import { loadingOverlay } from '../../utils/Common';
+import { evalResponse } from '../../utils/Response';
+import { extractColumn } from '../../utils/Array';
+import BooksFormTemplate from './books-form/books-form.template.html';
 import Datatables from '../../utils/Datatables';
 
 class BooksController{
@@ -100,7 +100,7 @@ class BooksController{
                                 .withPaginationType('full_numbers')
                                 .withDataProp('data')
                                 .withOption('ajax', {
-                                    url:  API_URL + 'books',
+                                    url:  API_URL_V1 + 'books',
                                     type: 'GET',
                                     beforeSend: () => {
                                         loadingOverlay.show(this.loadingOverlayService, 'loading-dt-books');

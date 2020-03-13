@@ -58,7 +58,7 @@ module.exports = {
     new HtmlWebpackPlugin({ template: "./src/public/index.html" }),
     new ExtractTextPlugin("styles.css"),
     new webpack.DefinePlugin({
-      API_URL: JSON.stringify(config.API_URL[environment])
+      API_URL_V1: JSON.stringify(config.API_URL_V1[environment])
     }),
     new UglifyJsPlugin({ uglifyOptions: 
       { mangle: false }

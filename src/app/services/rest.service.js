@@ -9,7 +9,7 @@ class RestService{
 
         const request = {
             method: method,
-            url: API_URL + url,
+            url: API_URL_V1 + url,
             data: data,
             timeout: deferred.promise,
             canceller: deferred

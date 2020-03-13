@@ -15,12 +15,12 @@ import AppRun from './app.run';
 import AppDirectives from './directives';
 
 // Components
-import FooterComponent from './components/footer/footer.component';
-import NavbarComponent from './components/navbar/navbar.component';
-import HomeComponent from './components/home/home.component';
-import ContactComponent from './components/contact/contact.component';
-import BooksComponent from './components/books/books.component';
-import AuthorsComponent from './components/authors/authors.component';
+import FooterComponent from './components/shared/footer/footer.component';
+import NavbarComponent from './components/shared/navbar/navbar.component';
+import HomeComponent from './pages/home/home.component';
+import ContactComponent from './pages/contact/contact.component';
+import BooksComponent from './pages/books/books.component';
+import AuthorsComponent from './pages/authors/authors.component';
 
 // Services
 import AppServices from './services';

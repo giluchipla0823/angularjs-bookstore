@@ -2,13 +2,40 @@ const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-
-const config = require('./config.json');
-const environment = process.env.NODE_ENV === 'production' ? 'production' : 'development';
-
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const config = require('./config.json');
+const ENVIRONMENT_PRODUCTION = 'production';
+const ENVIRONMENT_DEVELOPMENT = 'development';
+const environment = process.env.NODE_ENV === ENVIRONMENT_PRODUCTION ? ENVIRONMENT_PRODUCTION : ENVIRONMENT_DEVELOPMENT;
+let API_URL = config.API_URL[environment];
+
+let plugins = [
+  new HtmlWebpackPlugin({ template: "./src/public/index.html" }),
+  new ExtractTextPlugin("styles.css"),
+  new webpack.DefinePlugin({
+    API_URL: JSON.stringify(API_URL),
+    API_URL_V1: JSON.stringify(`${API_URL}v1/`)
+  }),
+  new UglifyJsPlugin({ uglifyOptions: 
+    { mangle: false }
+  }),
+];
+
+if (environment === ENVIRONMENT_PRODUCTION) {
+  plugins.push(
+    new CopyWebpackPlugin([
+      {
+        from: './src/public/assets/js/libs',
+        to: './assets/js/libs',
+      },
+      {
+        from: './src/public/templates',
+        to: './templates',
+      },
+    ])
+  );
+}
 
 module.exports = {
   entry: [
@@ -19,32 +46,7 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
   },
-  plugins: [
-    new CopyWebpackPlugin([
-      {
-        from: './src/public/assets/js/libs',
-        to: './assets/js/libs',
-      },
-      {
-        from: './src/public/templates',
-        to: './templates',
-      },
-    ]),
-    new HtmlWebpackPlugin({ template: "./src/public/index.html" }),
-    new ExtractTextPlugin("styles.css"),
-    new webpack.DefinePlugin({
-      API_URL: JSON.stringify(config.API_URL[environment])
-    }),
-    new UglifyJsPlugin({ uglifyOptions: 
-      { mangle: false }
-    }),
-  ],
-  /* resolve: {
-      alias: {
-          "bower_components": path.resolve(__dirname, "bower_components"),
-          // "paper": path.resolve(__dirname, "path/to/bower/file")
-      }
-  }, */
+  plugins,
   devServer: {
     contentBase:  path.join(__dirname, 'src/public'),
     historyApiFallback: true
@@ -54,7 +56,6 @@ module.exports = {
       {
         test: /\.js$/,
         use: "babel-loader",
-        // exclude: ["/bower_components/", "/node_modules/"]
         exclude: /node_modules/
       },
       {

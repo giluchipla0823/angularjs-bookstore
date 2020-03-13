@@ -1,6 +1,4 @@
 import angular from 'angular';
-
-import { select2Functions } from '../../public/assets/js/jsSelect2Functions';
 import Select2Utils from '../utils/Select2';
 
 const MODULE_NAME = 'app.directives';
@@ -121,16 +119,12 @@ const templateSelect2 = () => {
             }
 
             if(isMultiple){
-                // return select2Functions.template.multiple(theme);
-
                 return Select2Utils.getMultipleTemplate(theme);
             }
-            
-            // return select2Functions.template.single(theme);
 
             return Select2Utils.getSingleTemplate(theme);
         },
-        link: select2Functions.linkToDirective
+        link: Select2Utils.linkToDirective
     };
 };
 

@@ -1,4 +1,5 @@
-import { evalResponse, errorResponse }  from '../../../public/assets/js/jsResponseFunctions';
+import { evalResponse, errorResponse } from "../../../utils/Response";
+import { StatusCodes } from "../../../utils/StatusCodes";
 
 class AuthorsFormController{
 	constructor($uibModalInstance, Response, AuthorsService, SweetAlert){
@@ -44,7 +45,7 @@ class AuthorsFormController{
 				const status = error.status;
 				const message = data.message;
 
-				if(status === 422){
+				if(status === StatusCodes.HTTP_UNPROCESSABLE_ENTITY){
 					const errors = data.errors;
 					const template = errorResponse.validationForm(message, errors);
 
@@ -70,7 +71,7 @@ class AuthorsFormController{
 				const status = error.status;
 				const message = data.message;
 
-				if(status === 422){
+				if(status === StatusCodes.HTTP_UNPROCESSABLE_ENTITY){
 					const errors = data.errors;
 					const template = errorResponse.validationForm(message, errors);
 

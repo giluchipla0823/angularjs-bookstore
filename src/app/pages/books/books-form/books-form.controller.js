@@ -1,6 +1,6 @@
-import { evalResponse, errorResponse }  from '../../../public/assets/js/jsResponseFunctions';
-import { extractColumn } from '../../../public/assets/js/jsArrayFunctions';
-import { StatusCodes } from '../../utils/StatusCodes';
+import { evalResponse, errorResponse }  from '../../../utils/Response';
+import { extractColumn } from '../../../utils/Array';
+import { StatusCodes } from '../../../utils/StatusCodes';
 
 class BooksFormController{
 	constructor($uibModalInstance, Response, BooksService, SweetAlert, AuthorsService, PublishersService, GenresService){

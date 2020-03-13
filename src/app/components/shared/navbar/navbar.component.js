@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-import NavbarController from './navbar.controller.js';
+import NavbarController from './navbar.controller';
 import NavbarTemplate from './navbar.template.html';
 
 const MODULE_NAME = 'navbar.component';

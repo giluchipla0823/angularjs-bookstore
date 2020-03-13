@@ -1,6 +1,6 @@
-import { loadingOverlay } from '../../../public/assets/js/jsCommonFunctions';
-import { evalResponse } from '../../../public/assets/js/jsResponseFunctions';
-import AuthorsFormTemplate from './authors-form.template.html';
+import { loadingOverlay } from '../../utils/Common';
+import { evalResponse } from '../../utils/Response';
+import AuthorsFormTemplate from './authors-form/authors-form.template.html';
 import Datatables from '../../utils/Datatables';
 
 class AuthorsController{
@@ -56,7 +56,7 @@ class AuthorsController{
                                 .withPaginationType('full_numbers')
                                 .withDataProp('data')
                                 .withOption('ajax', {
-                                    url:  API_URL + 'authors',
+                                    url:  API_URL_V1 + 'authors',
                                     type: 'GET',
                                     beforeSend: () => {
                                         loadingOverlay.show(this.loadingOverlayService, 'loading-dt-authors');
