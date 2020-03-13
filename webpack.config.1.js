@@ -50,6 +50,10 @@ module.exports = {
         from: './src/public/assets',
         to: './assets',
       },
+      {
+        from: './src/public/templates',
+        to: './templates',
+      },
     ]),
     new HtmlWebpackPlugin({ template: "./src/public/index.html" }),
     new ExtractTextPlugin("styles.css"),

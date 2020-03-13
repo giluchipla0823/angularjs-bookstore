@@ -25,6 +25,10 @@ module.exports = {
         from: './src/public/assets/js/libs',
         to: './assets/js/libs',
       },
+      {
+        from: './src/public/templates',
+        to: './templates',
+      },
     ]),
     new HtmlWebpackPlugin({ template: "./src/public/index.html" }),
     new ExtractTextPlugin("styles.css"),
