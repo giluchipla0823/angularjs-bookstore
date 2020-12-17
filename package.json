@@ -26,7 +26,7 @@
     "bootstrap": "^3.3.7",
     "cross-env": "^5.2.0",
     "css-loader": "0.28.7",
-    "datatables.net": "^1.10.19",
+    "datatables.net": "^1.10.22",
     "datatables.net-dt": "^1.10.19",
     "datatables.net-responsive": "^2.2.3",
     "datatables.net-responsive-bs": "^2.2.3",
